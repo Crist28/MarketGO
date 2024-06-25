@@ -9,7 +9,11 @@ const router = Router();
 
 router.post('/registro_cliente', clienteController.registro_cliente);
 router.post('/login_cliente', clienteController.login_cliente);
+
 router.get('/listar_cliente_filtro_admin/:tipo/:filtro?',auth.auth, clienteController.listar_cliente_filtro_admin);
 router.post('/registro_cliente_admin',auth.auth, clienteController.registro_cliente_admin);
+router.get('/obtener_cliente_admin/:id',auth.auth, clienteController.obtener_cliente_admin);
+router.put('/actualizar_cliente_admin/:id',auth.auth, clienteController.actualizar_cliente_admin);
+router.delete('/eliminar_cliente_admin/:id',auth.auth, clienteController.eliminar_cliente_admin);
 
 module.exports = router;

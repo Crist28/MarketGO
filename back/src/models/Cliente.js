@@ -13,8 +13,8 @@ const ClienteSchema = Schema({
     telefono: { type: String, required: false },
     genero: { type: String, required: false },
     f_nacimiento: { type: String, required: false },
-    dni: { type: String, required: false }
-
+    dni: { type: String, required: false },
+    createdAt: { type: Date, default: Date.now, require: true }
 });
 
 module.exports = model( 'cliente', ClienteSchema );
