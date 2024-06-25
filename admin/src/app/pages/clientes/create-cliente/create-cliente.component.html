@@ -1,0 +1,209 @@
+<app-header />
+<app-sidebar />
+
+<div class="content">
+  <div class="px-4 py-2 my-2 text-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      fill="currentColor"
+      class="bi bi-transparency mb-4"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M0 6.5a6.5 6.5 0 0 1 12.346-2.846 6.5 6.5 0 1 1-8.691 8.691A6.5 6.5 0 0 1 0 6.5m5.144 6.358a5.5 5.5 0 1 0 7.714-7.714 6.5 6.5 0 0 1-7.714 7.714m-.733-1.269q.546.226 1.144.33l-1.474-1.474q.104.597.33 1.144m2.614.386a5.5 5.5 0 0 0 1.173-.242L4.374 7.91a6 6 0 0 0-.296 1.118zm2.157-.672q.446-.25.838-.576L5.418 6.126a6 6 0 0 0-.587.826zm1.545-1.284q.325-.39.576-.837L6.953 4.83a6 6 0 0 0-.827.587l4.6 4.602Zm1.006-1.822q.183-.562.242-1.172L9.028 4.078q-.58.096-1.118.296l3.823 3.824Zm.186-2.642a5.5 5.5 0 0 0-.33-1.144 5.5 5.5 0 0 0-1.144-.33z"
+      />
+    </svg>
+    <h1 class="display-5 fw-bold text-body-emphasis">Registrar Clientes</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Este modulo es para registrar a los clientes.</p>
+    </div>
+    <form
+      class="px-5 py-2 my-2 text-center"
+      #registroForm="ngForm"
+      (ngSubmit)="registro(registroForm)"
+    >
+      <h4 class="px-5 py-3 my-3 text-center">Registro de Clientes</h4>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Nombres</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Nombres Completos..."
+                name="nombres"
+                [(ngModel)]="cliente.nombres"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Apellidos</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Apellidos Completos..."
+                name="apellidos"
+                [(ngModel)]="cliente.apellidos"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Pais</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Pais de Residencia..."
+                name="pais"
+                [(ngModel)]="cliente.pais"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Correo</span
+              >
+              <input
+                type="email"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Correo Electronico..."
+                name="email"
+                [(ngModel)]="cliente.email"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Contraseña</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Contraseña..."
+                name="password"
+                [(ngModel)]="cliente.password"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Foto Perfil</span
+              >
+              <input
+                type="file"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Foto de Perfil..."
+                name="perfil"
+                [(ngModel)]="cliente.perfil"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Telefono</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Telefono de Contacto..."
+                name="telefono"
+                [(ngModel)]="cliente.telefono"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Genero</span
+              >
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                placeholder="Telefono de Contacto..."
+                [(ngModel)]="cliente.genero"
+                name="genero"
+              >
+                <option disabled selected>Seleccionar</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Fecha Nacimiento</span
+              >
+              <input
+                type="date"
+                class="form-control"
+                name="f_nacimiento"
+                [(ngModel)]="cliente.f_nacimiento"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Fecha de Nacimiento..."
+              />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="input-group input-group-sm" style="max-width: 300px">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Dni</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="dni"
+                [(ngModel)]="cliente.dni"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Identificacion..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary me-3 my-5" type="submit">
+        Crear Cliente
+      </button>
+      <a
+        type="button"
+        class="btn btn-warning"
+        [routerLink]="['/panel/clientes']"
+        >Regresar</a
+      >
+    </form>
+  </div>
+</div>

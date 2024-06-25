@@ -1,0 +1,12 @@
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+}
+.nav-link {
+  color: #808080;
+}
+
+.nav-link.selected {
+  color: white; 
+}
