@@ -1,0 +1,128 @@
+<app-header />
+<app-sidebar />
+
+<div class="content">
+  <div class="px-4 py-2 my-2 text-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      fill="currentColor"
+      class="bi bi-transparency mb-4"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M0 6.5a6.5 6.5 0 0 1 12.346-2.846 6.5 6.5 0 1 1-8.691 8.691A6.5 6.5 0 0 1 0 6.5m5.144 6.358a5.5 5.5 0 1 0 7.714-7.714 6.5 6.5 0 0 1-7.714 7.714m-.733-1.269q.546.226 1.144.33l-1.474-1.474q.104.597.33 1.144m2.614.386a5.5 5.5 0 0 0 1.173-.242L4.374 7.91a6 6 0 0 0-.296 1.118zm2.157-.672q.446-.25.838-.576L5.418 6.126a6 6 0 0 0-.587.826zm1.545-1.284q.325-.39.576-.837L6.953 4.83a6 6 0 0 0-.827.587l4.6 4.602Zm1.006-1.822q.183-.562.242-1.172L9.028 4.078q-.58.096-1.118.296l3.823 3.824Zm.186-2.642a5.5 5.5 0 0 0-.33-1.144 5.5 5.5 0 0 0-1.144-.33z"
+      />
+    </svg>
+    <h1 class="display-5 fw-bold">Productos</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">
+        Este modulo lista todos los productos de la tienda.
+      </p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg px-4 gap-3"
+          [routerLink]="['/panel/productos/registro']"
+        >
+          Registrar nuevo
+        </button>
+      </div>
+    </div>
+    <div class="row g-3 align-items-center my-5">
+        <div class="col-auto">
+          <input
+            type="text"
+            id="inputTitulo"
+            class="form-control"
+            aria-describedby="tituloHelpInline"
+            (keyup)="filtrar('titulo')"
+            name="filtro_titulo"
+            [(ngModel)]="filtro_titulo"
+            placeholder="Titulo..."
+          />
+        </div>
+        <div class="col-auto">
+          <input
+            type="text"
+            id="inputCategoria"
+            class="form-control"
+            aria-describedby="categoriaHelpInline"
+            (keyup)="filtrar('categoria')"
+            name="filtro_categoria"
+            [(ngModel)]="filtro_categoria"
+            placeholder="Categoria..."
+          />
+        </div>        
+    </div>
+    <table class="table my-1">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Portada</th>
+          <th scope="col">Titulo</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Ventas</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody
+        *ngFor="let producto of productos | slice : (page - 1) * pageSize : (page - 1) * pageSize + pageSize; let indice = index"
+      >
+        <tr>
+          <th scope="row"> {{ indice + 1 }} </th>
+          <th scope="row">
+            <img [src]="url + 'obtener_portada/' + producto.portada" style="width: 50px" alt="">
+          </th>
+          <th scope="row">
+            {{ producto.titulo }}
+          </th>
+          <th scope="row">{{ producto.stock }}</th>
+          <th scope="row">{{ producto.precio }}</th>
+          <th scope="row">{{ producto.categoria }}</th>
+          <th scope="row">{{ producto.nventas }}</th>
+          <td>
+            <div class="btn-group dropup">
+              <button
+                type="button"
+                class="btn btn-secondary dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Opciones
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    >Editar Cliente</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    
+                    style="cursor: pointer"
+                    >Eliminar Cliente</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ngb-pagination
+      class="px-4 py-2 my-2 text-center"
+      [collectionSize]="productos.length"
+      [pageSize]="pageSize"
+      [(page)]="page"
+      aria-label="Default pagination"
+    />
+  </div>
+</div>
+
+
