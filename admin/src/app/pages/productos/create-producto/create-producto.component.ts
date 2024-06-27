@@ -36,26 +36,34 @@ export class CreateProductoComponent {
 
   registro(registroForm: NgForm) {
     if (registroForm.valid) {
-      if (this.file == undefined) {
+      if(this.file == undefined){
         iziToast.error({
           title: 'Error',
-          message: 'Debe subir una imagen de portada para registrar el producto',
+          message: 'Debes subir una portada para registrarte',
           position: 'topRight',
         });
       }else{
-        this.productoService.registro_producto_admin(this.producto, this.file, this.token).subscribe(
-          response => {         
-            iziToast.success({
-              title: 'Ok',
-              message: 'Se registró correctamente el nuevo producto',
-              position: 'topRight',
-            });
-            this.router.navigate(['/panel/productos']);
-          },
-          error => {
-            console.error('Error al registrar producto:', error);
-          }
-        );
+        if (this.file == undefined) {
+          iziToast.error({
+            title: 'Error',
+            message: 'Debe subir una imagen de portada para registrar el producto',
+            position: 'topRight',
+          });
+        }else{
+          this.productoService.registro_producto_admin(this.producto, this.file, this.token).subscribe(
+            response => {         
+              iziToast.success({
+                title: 'Ok',
+                message: 'Se registró correctamente el nuevo producto',
+                position: 'topRight',
+              });
+              this.router.navigate(['/panel/productos']);
+            },
+            error => {
+              console.error('Error al registrar producto:', error);
+            }
+          );
+        }
       }
     } else {
       iziToast.error({

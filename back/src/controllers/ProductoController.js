@@ -59,7 +59,7 @@ const listar_productos_admin = async (req, res) => {
 
     res.status(200).send({ data: registro });
   } catch (error) {
-    console.error('Error al listar productos:', error);
+    console.error("Error al listar productos:", error);
     res.status(500).send({ message: "Error al listar productos", error });
   }
 };
@@ -88,8 +88,138 @@ const obtener_portada = async (req, res) => {
   }
 };
 
+const obtener_producto_admin = async (req = request, res = response) => {
+  if (req.user) {
+    if (req.user.role == "admin") {
+      let id = req.params["id"];
+
+      try {
+        let registro = await Producto.findById({ _id: id });
+        res.status(200).send({ data: registro });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
+      }
+    } else {
+      res.status(404).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+};
+
+const actualizar_producto_admin = async (req = request, res = response) => {
+  if (req.user.role == "admin") {
+    const id = req.params["id"];
+    const data = req.body;
+    console.log("Entrando a actualizar_producto_admin");
+    console.log("req.body:", req.body);
+    console.log("req.files:", req.files);
+
+    try {
+      let productoActualizado;
+      const productoAnterior = await Producto.findById(id);
+
+      if (req.files && req.files.portada) {
+        // SI HAY UNA NUEVA IMAGEN DE PORTADA
+        const img_path = req.files.portada.path;
+        const name = img_path.split("\\");
+        const portada_name = name[name.length - 1];
+
+        // Eliminar la imagen anterior de la carpeta 'uploads/productos' si existe
+        if (productoAnterior.portada) {
+          const imagePath = path.join(
+            __dirname,
+            "../uploads/productos",
+            productoAnterior.portada
+          );
+          fs.unlinkSync(imagePath);
+        }
+
+        // Actualizar los campos del producto con los datos enviados desde el frontend
+        productoActualizado = await Producto.findByIdAndUpdate(id, {
+          titulo: data.titulo,
+          stock: data.stock,
+          precio: data.precio,
+          categoria: data.categoria,
+          descripcion: data.descripcion,
+          contenido: data.contenido,
+          portada: portada_name,
+        });
+      } else {
+        // NO HAY UNA NUEVA IMAGEN DE PORTADA, ACTUALIZAR LOS DEMÁS CAMPOS DEL PRODUCTO
+        productoActualizado = await Producto.findByIdAndUpdate(
+          id,
+          {
+            titulo: data.titulo,
+            stock: data.stock,
+            precio: data.precio,
+            sku: data.sku,
+            categoria: data.categoria,
+            descripcion: data.descripcion,
+            contenido: data.contenido,
+          },
+          { new: true }
+        ); // Añadimos { new: true } para que nos devuelva el producto actualizado.
+      }
+
+      res.status(200).send({ data: productoActualizado });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ message: "Error al actualizar el producto" });
+    }
+  } else {
+    res.status(403).send({ message: "NoAccess" });
+  }
+};
+
+const eliminar_producto_admin = async (req, res) => {
+  if (req.user) {
+    if (req.user.role == "admin") {
+      const id = req.params["id"];
+
+      try {
+        // Buscar el producto por su ID para obtener el nombre de la imagen
+        const producto = await Producto.findById(id);
+
+        // Si se encontró el producto
+        if (producto) {
+          // Obtener el nombre de la imagen asociada al producto
+          const imagenProducto = producto.portada;
+
+          // Eliminar el producto de la base de datos
+          await Producto.findByIdAndDelete(id);
+
+          // Eliminar la imagen asociada al producto
+          const imagePath = path.join(
+            __dirname,
+            "../uploads/productos",
+            imagenProducto
+          );
+          fs.unlinkSync(imagePath);
+          console.log("Imagen del producto eliminada correctamente");
+
+          res.status(200).send({ message: "Producto eliminado correctamente" });
+        } else {
+          res.status(404).send({ message: "Producto no encontrado" });
+        }
+      } catch (error) {
+        res
+          .status(500)
+          .send({ message: "Error al eliminar el producto", error });
+      }
+    } else {
+      res.status(403).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+};
+
 module.exports = {
   registro_producto_admin,
   listar_productos_admin,
-  obtener_portada
+  obtener_portada,
+  obtener_producto_admin,
+  actualizar_producto_admin,
+  eliminar_producto_admin
 };

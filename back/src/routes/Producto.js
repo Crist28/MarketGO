@@ -15,5 +15,8 @@ router.post('/registro_producto_admin', [auth.auth, multipartyMiddleware], produ
 
 router.get('/listar_productos_admin/:tipo/:filtro?', [auth.auth], productoController.listar_productos_admin);
 router.get('/obtener_portada/:img', productoController.obtener_portada);
+router.get('/obtener_producto_admin/:id', [auth.auth], productoController.obtener_producto_admin);
+router.put('/actualizar_producto_admin/:id', [auth.auth, multipartyMiddleware], productoController.actualizar_producto_admin);
+router.delete('/eliminar_producto_admin/:id', [auth.auth], productoController.eliminar_producto_admin);
 
 module.exports = router;

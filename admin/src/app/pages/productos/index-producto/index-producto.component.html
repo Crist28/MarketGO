@@ -98,15 +98,17 @@
                 <li>
                   <a
                     class="dropdown-item"
-                    >Editar Cliente</a
+                    [routerLink]="['/panel/productos', producto._id]"
+                    style="cursor: pointer"
+                    >Editar Producto</a
                   >
                 </li>
                 <li>
                   <a
                     class="dropdown-item"
-                    
+                    (click)="eliminarProducto(producto._id)"
                     style="cursor: pointer"
-                    >Eliminar Cliente</a
+                    >Eliminar Producto</a
                   >
                 </li>
               </ul>

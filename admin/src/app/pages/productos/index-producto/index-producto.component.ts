@@ -62,4 +62,77 @@ export class IndexProductoComponent {
       }
     );
   }
+
+  // eliminarProducto(id: string) {
+  //   const confirmacion = window.confirm('¿Desea eliminar el producto?');
+
+  //   if (confirmacion) {
+  //     const token = localStorage.getItem('token');
+  //     this.productoService.eliminar_producto_admin(id, token).subscribe(
+  //       response => {
+  //         // Realizar acciones adicionales después de eliminar el producto si es necesario
+  //         console.log('Producto eliminado correctamente', response);
+  //         // Actualizar la lista de productos después de eliminar, si corresponde
+  //         location.reload();
+  //       },
+  //       error => {
+  //         // Manejar errores en caso de que ocurra alguno durante la eliminación
+  //         console.error('Error al eliminar el producto', error);
+  //       }
+  //     );
+  //   }
+  // }
+
+  eliminarProducto(id: string) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    });
+  
+    swalWithBootstrapButtons.fire({
+      title: '¿Quieres eliminar el producto?',
+      text: "Esta acción no se puede deshacer.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminarlo!',
+      cancelButtonText: 'No, cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productoService.eliminar_producto_admin(id, this.token).subscribe(
+          response => {
+            // Realizar acciones adicionales después de eliminar el producto si es necesario
+            console.log('Producto eliminado correctamente', response);
+            // Mostrar mensaje de éxito
+            swalWithBootstrapButtons.fire(
+              '¡Eliminado!',
+              'El producto ha sido eliminado.',
+              'success'
+            );
+            // Actualizar la lista de productos después de eliminar, si corresponde
+            location.reload();
+          },
+          error => {
+            // Manejar errores en caso de que ocurra alguno durante la eliminación
+            console.error('Error al eliminar el producto', error);
+            // Mostrar mensaje de error
+            swalWithBootstrapButtons.fire(
+              'Error',
+              'Hubo un problema al eliminar el producto.',
+              'error'
+            );
+          }
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'El producto no ha sido eliminado.',
+          'info'
+        );
+      }
+    });
+  }  
 }
