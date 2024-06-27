@@ -13,6 +13,7 @@ class Server {
         this.routersCliente = '/api';
         this.routersAdmin = '/api';
         this.routersProducto = '/api';
+        this.routersInventario = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -33,6 +34,7 @@ class Server {
         this.app.use(this.routersCliente, require("./routes/Cliente"));
         this.app.use(this.routersAdmin, require("./routes/Admin"));
         this.app.use(this.routersProducto, require("./routes/Producto"));
+        this.app.use(this.routersInventario, require("./routes/Inventario"));
     }
 
     listen() {

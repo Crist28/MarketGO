@@ -1,6 +1,7 @@
 "use strict";
 
 const Producto = require("../models/Producto");
+const Inventario = require("../models/Inventario");
 
 const fs = require("fs");
 const path = require("path");
@@ -26,7 +27,14 @@ const registro_producto_admin = async (req, res) => {
 
       let reg = await Producto.create(data);
 
-      res.status(200).send({ data: reg });
+      let inventario = await Inventario.create({
+        admin: req.user.sub,
+        cantidad: data.stock,
+        proveedor: 'Primer registro',
+        producto: reg._id,
+      });
+
+      res.status(200).send({ data: reg, inventario: inventario });
     } else {
       res
         .status(200)
