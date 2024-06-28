@@ -14,6 +14,7 @@ class Server {
         this.routersAdmin = '/api';
         this.routersProducto = '/api';
         this.routersInventario = '/api';
+        this.routersCupon = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -35,6 +36,7 @@ class Server {
         this.app.use(this.routersAdmin, require("./routes/Admin"));
         this.app.use(this.routersProducto, require("./routes/Producto"));
         this.app.use(this.routersInventario, require("./routes/Inventario"));
+        this.app.use(this.routersCupon, require("./routes/Cupon"));
     }
 
     listen() {
