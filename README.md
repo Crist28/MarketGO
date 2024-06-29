@@ -1,3 +1,4 @@
+
 # MarketGO - Ecommer Profesional
 
 Nuestro proyecto cuenta con un completo panel administrativo que te brinda el control total sobre tu negocio. A través de este panel podrás:
@@ -66,6 +67,16 @@ Crear las variables de entorno .env al nivel del archivo index.js con tres datos
 `MONGODB_CNN`
 
 `JWT_SECRET`
+
+## Correr el proyecto
+
+```bash
+  npm start
+```
+
+```bash
+  nodemon index
+```
 
 
 ## Autores
