@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { ProductoService } from '../../../services/producto.service';
 import { AdminService } from '../../../services/admin.service';
+import { ConfigService } from '../../../services/config.service';
 
 declare let iziToast: any;
 
@@ -20,6 +22,7 @@ declare let iziToast: any;
     RouterLink,
     RouterOutlet,
     CommonModule,
+    MatIconModule
   ],
   templateUrl: './create-producto.component.html',
   styleUrl: './create-producto.component.css',
@@ -29,9 +32,21 @@ export class CreateProductoComponent {
   public file : any = undefined;
   public imgSelect : any | ArrayBuffer = 'assets/imagen.jpg';
   token: string = '';
+  public config : any = {};
+  public config_global: any = {};
 
-  constructor(private productoService: ProductoService, private adminService: AdminService, private router: Router){
+  constructor(private productoService: ProductoService, private adminService: AdminService, private router: Router, private configService: ConfigService){
     this.token = this.adminService.getToken() ?? '';
+    this.configService.obtener_config_publico().subscribe(
+      response=>{
+        this.config_global = response.data;
+        console.log(this.config_global);
+        
+      },error=>{
+        console.log(error);
+        
+      }
+    )
   }
 
   registro(registroForm: NgForm) {

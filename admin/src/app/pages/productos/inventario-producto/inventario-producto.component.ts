@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -16,7 +17,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-inventario-producto',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, FormsModule, RouterLink, CommonModule],
+  imports: [SidebarComponent, HeaderComponent, FormsModule, RouterLink, CommonModule, NgbPaginationModule],
   templateUrl: './inventario-producto.component.html',
   styleUrl: './inventario-producto.component.css'
 })
@@ -28,6 +29,8 @@ export class InventarioProductoComponent {
   token: string = '';
   public inventario: Array<any> = [];
   public inventario2: any = {};
+  page = 1;
+  pageSize= 5;
 
   constructor(private route: ActivatedRoute, private productoService: ProductoService, private adminService: AdminService, private inventarioService: InventarioService){
     this.token = this.adminService.getToken() ?? '';
@@ -88,7 +91,15 @@ export class InventarioProductoComponent {
               'El inventario ha sido eliminado.',
               'success'
             );
-            // Aquí puedes actualizar la lista de inventarios o la vista, si es necesario
+            this.inventarioService.listar_inventario_producto_admin(this.producto._id, this.token).subscribe(
+              response => {
+                console.log(response);
+                this.inventario = response.data;
+                this.inventario.reverse();
+              }, error => {
+                console.log(error);
+              }
+            )
           },
           error => {
             console.error('Error al eliminar el inventario', error);

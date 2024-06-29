@@ -10,11 +10,12 @@ class Server {
 
         this.port = process.env.PORT || 3000;
 
-        this.routersCliente = '/api';
-        this.routersAdmin = '/api';
-        this.routersProducto = '/api';
-        this.routersInventario = '/api';
-        this.routersCupon = '/api';
+        this.routesCliente = '/api';
+        this.routesAdmin = '/api';
+        this.routesProducto = '/api';
+        this.routesInventario = '/api';
+        this.routesCupon = '/api';
+        this.routesConfig = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -32,11 +33,12 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.routersCliente, require("./routes/Cliente"));
-        this.app.use(this.routersAdmin, require("./routes/Admin"));
-        this.app.use(this.routersProducto, require("./routes/Producto"));
-        this.app.use(this.routersInventario, require("./routes/Inventario"));
-        this.app.use(this.routersCupon, require("./routes/Cupon"));
+        this.app.use(this.routesCliente, require("./routes/Cliente"));
+        this.app.use(this.routesAdmin, require("./routes/Admin"));
+        this.app.use(this.routesProducto, require("./routes/Producto"));
+        this.app.use(this.routesInventario, require("./routes/Inventario"));
+        this.app.use(this.routesCupon, require("./routes/Cupon"));
+        this.app.use(this.routesConfig, require("./routes/Config"));
     }
 
     listen() {

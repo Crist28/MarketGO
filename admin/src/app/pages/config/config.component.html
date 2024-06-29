@@ -1,0 +1,144 @@
+<app-header />
+<app-sidebar />
+
+<div class="content">
+  <div class="px-4 py-2 my-2 text-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      fill="currentColor"
+      class="bi bi-transparency mb-4"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M0 6.5a6.5 6.5 0 0 1 12.346-2.846 6.5 6.5 0 1 1-8.691 8.691A6.5 6.5 0 0 1 0 6.5m5.144 6.358a5.5 5.5 0 1 0 7.714-7.714 6.5 6.5 0 0 1-7.714 7.714m-.733-1.269q.546.226 1.144.33l-1.474-1.474q.104.597.33 1.144m2.614.386a5.5 5.5 0 0 0 1.173-.242L4.374 7.91a6 6 0 0 0-.296 1.118zm2.157-.672q.446-.25.838-.576L5.418 6.126a6 6 0 0 0-.587.826zm1.545-1.284q.325-.39.576-.837L6.953 4.83a6 6 0 0 0-.827.587l4.6 4.602Zm1.006-1.822q.183-.562.242-1.172L9.028 4.078q-.58.096-1.118.296l3.823 3.824Zm.186-2.642a5.5 5.5 0 0 0-.33-1.144 5.5 5.5 0 0 0-1.144-.33z"
+      />
+    </svg>
+    <h1 class="display-5 fw-bold">Configuraciones</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">
+        Este modulo lista todas las configuraciones de la tienda.
+      </p>
+    </div>
+    <div class="row g-3 align-items-center my-5">
+      <div class="col-md-6">
+        <label for="storeName">Nombre de la tienda:</label>
+        <input
+          type="text"
+          id="storeName"
+          class="form-control"
+          name="titulo"
+          [(ngModel)]="config.titulo"
+          placeholder="Nombre de la tienda..."
+          required
+        />
+      </div>
+    </div>
+    <div class="row g-3 align-items-center my-5">
+      <div class="col-md-6">
+        <label for="billing1">Facturación:</label>
+        <input
+          type="number"
+          id="billing1"
+          class="form-control mb-2"
+          name="serie"
+          [(ngModel)]="config.serie"
+          placeholder="Facturación..."
+          required
+        />
+        <input
+          type="number"
+          id="billing2"
+          class="form-control"
+          name="correlativo"
+          [(ngModel)]="config.correlativo"
+          placeholder="Facturación..."
+          required
+        />
+      </div>
+    </div>
+  </div>
+  <form #confForm="ngForm" (ngSubmit)="actualizar(confForm)" action="">
+    <div class="row g-3 align-items-center my-5">
+      <div class="col-md-6">
+        <label for="category1">Categorías:</label>
+        <input
+          type="text"
+          id="category1"
+          class="form-control mb-2"
+          name="titulo_cat"
+          [(ngModel)]="titulo_cat"
+          placeholder="Categorías..."
+        />
+        <input
+          type="text"
+          id="category2"
+          class="form-control mb-2"
+          name="icono_cat"
+          [(ngModel)]="icono_cat"
+          placeholder="Categorías..."
+        />
+        <button class="btn btn-primary" (click)="agregar_cat()">Agregar</button>
+      </div>
+    </div>
+
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Categorías</th>
+          <th scope="col">Icono</th>
+          <th scope="col">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of config.categorias; let indice = index">
+        <tr>
+          <th scope="row">{{ indice + 1 }}</th>
+          <td>{{ item.titulo }}</td>
+          <td>
+            <mat-icon>{{ item.icono }}</mat-icon>
+          </td>
+          <td>
+            <div class="btn-group dropup">
+              <a (click)="eliminar_categoria(indice)" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-group row align-items-center">
+      <label class="col-md-1 col-form-label font-weight-medium" for="file-input"
+        >Logo</label
+      >
+      <div class="col-md-9">
+        <div class="border p-3 rounded bg-light text-center position-relative">
+          <div class="text-muted">
+            <i class="bi bi-upload" style="font-size: 2rem"></i>
+            <p>Arrastre la imagen</p>
+          </div>
+          <input
+            type="file"
+            class="position-absolute w-100 h-100 opacity-0 top-0 start-0"
+            (change)="fileChangeEvent($event)"
+            style="cursor: pointer"
+          />
+          <button type="button" class="btn btn-outline-primary btn-sm mt-2">
+            Subir imagen
+          </button>
+        </div>
+        <div class="mt-3 text-center">
+          <img [src]="imgSelect" class="img-thumbnail" alt="Portada" style="width: 300px; height: 300px; object-fit: cover;" />
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-warning me-3 my-5">
+      Guardar Cambios
+    </button>
+  </form>
+</div>

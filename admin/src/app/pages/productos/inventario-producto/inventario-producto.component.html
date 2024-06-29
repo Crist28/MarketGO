@@ -71,7 +71,7 @@
           <th scope="col">Opciones</th>
         </tr>
       </thead>
-      <tbody *ngFor="let item of inventario; let indice = index">
+      <tbody *ngFor="let item of inventario | slice : (page - 1) * pageSize : (page - 1) * pageSize + pageSize; let indice = index">
         <tr>
           <th scope="row">{{ indice + 1 }}</th>
           <th scope="row">
@@ -92,12 +92,12 @@
         </tr>
       </tbody>
     </table>
-    <!-- <ngb-pagination
+    <ngb-pagination
       class="px-4 py-2 my-2 text-center"
-      [collectionSize]="productos.length"
+      [collectionSize]="inventario.length"
       [pageSize]="pageSize"
       [(page)]="page"
       aria-label="Default pagination"
-    /> -->
+    />
   </div>
 </div>

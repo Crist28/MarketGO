@@ -10,6 +10,7 @@ import { AdminService } from '../../../services/admin.service';
 import { Global } from '../../../environment/global.component';
 
 import Swal from 'sweetalert2';
+import { ConfigService } from '../../../services/config.service';
 
 declare const jQuery: any;
 declare const $: any;
@@ -37,16 +38,28 @@ export class UpdateProductoComponent {
   public url;
   public id: any;
   token: string = '';
+  public config_global: any = {};
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productoService: ProductoService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private configService: ConfigService
   ) {
     this.config = { heigth: 500 };
     this.url = Global.url;
     this.token = this.adminService.getToken() ?? '';
+    this.configService.obtener_config_publico().subscribe(
+      response=>{
+        this.config_global = response.data;
+        console.log(this.config_global);
+        
+      },error=>{
+        console.log(error);
+        
+      }
+    )
   }
 
   ngOnInit(): void {
