@@ -13,6 +13,8 @@ const ProductoSchema = Schema({
     nventas: { type: Number, default: 0, required: true },
     npuntos: { type: Number, default: 0, required: true },
     categoria: { type: String, required: true }, 
+    variedades: [{ type: Object, required: false }],
+    titulo_variedad: { type: String, required: false },
     estado: { type: String, default: 'Edicion', required: true },
     createdAt: { type: Date, default: Date.now, required: true },
 

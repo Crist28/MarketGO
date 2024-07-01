@@ -63,26 +63,6 @@ export class IndexProductoComponent {
     );
   }
 
-  // eliminarProducto(id: string) {
-  //   const confirmacion = window.confirm('¿Desea eliminar el producto?');
-
-  //   if (confirmacion) {
-  //     const token = localStorage.getItem('token');
-  //     this.productoService.eliminar_producto_admin(id, token).subscribe(
-  //       response => {
-  //         // Realizar acciones adicionales después de eliminar el producto si es necesario
-  //         console.log('Producto eliminado correctamente', response);
-  //         // Actualizar la lista de productos después de eliminar, si corresponde
-  //         location.reload();
-  //       },
-  //       error => {
-  //         // Manejar errores en caso de que ocurra alguno durante la eliminación
-  //         console.error('Error al eliminar el producto', error);
-  //       }
-  //     );
-  //   }
-  // }
-
   eliminarProducto(id: string) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {

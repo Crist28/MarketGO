@@ -64,7 +64,7 @@ Crear las variables de entorno .env al nivel del archivo index.js con tres datos
 
 `PORT`
 
-`MONGODB_CNN`
+`MONGODB_URL`
 
 `JWT_SECRET`
 

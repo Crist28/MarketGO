@@ -16,6 +16,7 @@ class Server {
         this.routesInventario = '/api';
         this.routesCupon = '/api';
         this.routesConfig = '/api';
+        this.routesVariedad = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -39,10 +40,11 @@ class Server {
         this.app.use(this.routesInventario, require("./routes/Inventario"));
         this.app.use(this.routesCupon, require("./routes/Cupon"));
         this.app.use(this.routesConfig, require("./routes/Config"));
+        this.app.use(this.routesVariedad, require("./routes/variedad"));
     }
 
     listen() {
-        this.app.listen(this.port, () => {
+        this.app.listen(this.port,'0.0.0.0', () => {
             console.log('Servidor corriendo en el puerto', this.port);
         });
     }

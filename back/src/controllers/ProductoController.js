@@ -223,6 +223,8 @@ const eliminar_producto_admin = async (req, res) => {
   }
 };
 
+//Metodos publicos
+
 module.exports = {
   registro_producto_admin,
   listar_productos_admin,
