@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 const dbConnection = async () => {
-  const dbUrl = process.env.MONGODB_URL || "mongodb+srv://Crist28:BlNJyvNVqg7O3nmt@atlascluster.5r2adke.mongodb.net/tiendadb?retryWrites=true&w=majority&appName=AtlasCluster";
+  const dbUrl = process.env.MONGODB_URL;
   try {
     await mongoose.connect(dbUrl);
     console.log("Conectado a la base de datos");
