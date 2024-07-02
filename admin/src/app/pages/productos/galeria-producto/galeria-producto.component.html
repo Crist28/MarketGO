@@ -1,0 +1,108 @@
+<app-header />
+<app-sidebar />
+
+<div class="content">
+  <div class="px-4 py-2 my-2 text-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      fill="currentColor"
+      class="bi bi-transparency mb-4"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M0 6.5a6.5 6.5 0 0 1 12.346-2.846 6.5 6.5 0 1 1-8.691 8.691A6.5 6.5 0 0 1 0 6.5m5.144 6.358a5.5 5.5 0 1 0 7.714-7.714 6.5 6.5 0 0 1-7.714 7.714m-.733-1.269q.546.226 1.144.33l-1.474-1.474q.104.597.33 1.144m2.614.386a5.5 5.5 0 0 0 1.173-.242L4.374 7.91a6 6 0 0 0-.296 1.118zm2.157-.672q.446-.25.838-.576L5.418 6.126a6 6 0 0 0-.587.826zm1.545-1.284q.325-.39.576-.837L6.953 4.83a6 6 0 0 0-.827.587l4.6 4.602Zm1.006-1.822q.183-.562.242-1.172L9.028 4.078q-.58.096-1.118.296l3.823 3.824Zm.186-2.642a5.5 5.5 0 0 0-.33-1.144 5.5 5.5 0 0 0-1.144-.33z"
+      />
+    </svg>
+    <h1 class="display-5 fw-bold">Galeria de producto</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Este modulo lista todas las fotos del producto.</p>
+    </div>
+  </div>
+  <div class="form-group row align-items-center">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img
+              [src]="url + 'obtener_portada/' + producto.portada"
+              class="img-thumbnail"
+              style="width: 100%; object-fit: cover"
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ producto.titulo }}</h5>
+              <p class="card-text">{{ producto.descripcion }}</p>
+              <p class="card-text">
+                <small class="text-muted"> ${{ producto.precio }} </small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row g-3 align-items-center my-5">
+    <div class="col-auto">
+      <label for="category2" class="col-form-label">Nueva Imagen:</label>
+    </div>
+    <div class="col-auto">
+      <input id="input-img" type="file" id="category2" class="form-control" (change)="fileChangeEvent($event)" />
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" (click)="subir_imagen()">Subir</button>
+    </div>
+  </div>  
+
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Imagen</th>
+        <th scope="col">Identificador</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of producto.galeria; let indice = index">
+      <tr>
+        <th scope="col">{{ indice + 1 }}</th>
+        <th scope="row">
+          <img [src]="url+'obtener_galeria/'+item.imagen" style="width: 80px;">
+        </th>
+        <th scope="row">
+          {{ item.imagen }}
+        </th>
+        <td>
+          <div class="btn-group dropup">
+            <a (click)="eliminar(item._id)" style="cursor: pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="red"
+                class="bi bi-trash"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                />
+                <path
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                />
+              </svg>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button
+    type="button"
+    class="btn btn-primary me-3 my-5"
+    [routerLink]="['/panel/productos']"
+  >
+    Regresar
+  </button>
+</div>

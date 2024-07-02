@@ -17,6 +17,7 @@ import { IndexCuponComponent } from './pages/cupones/index-cupon/index-cupon.com
 import { UpdateCuponComponent } from './pages/cupones/update-cupon/update-cupon.component';
 import { ConfigComponent } from './pages/config/config.component';
 import { VariedadProductoComponent } from './pages/productos/variedad-producto/variedad-producto.component';
+import { GaleriaProductoComponent } from './pages/productos/galeria-producto/galeria-producto.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -31,6 +32,7 @@ export const routes: Routes = [
         { path: 'productos/:id', component: UpdateProductoComponent, canActivate: [adminGuard] },
         { path: 'productos/inventario/:id', component: InventarioProductoComponent, canActivate: [adminGuard] },
         { path: 'productos/variedades/:id', component: VariedadProductoComponent, canActivate: [adminGuard] },
+        { path: 'productos/galeria/:id', component: GaleriaProductoComponent, canActivate: [adminGuard] },
 
         { path: 'cupones', component: IndexCuponComponent, canActivate: [adminGuard] },
         { path: 'cupones/registro', component: CreateCuponComponent, canActivate: [adminGuard] },

@@ -17,6 +17,7 @@ class Server {
         this.routesCupon = '/api';
         this.routesConfig = '/api';
         this.routesVariedad = '/api';
+        this.routesGaleria = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -41,6 +42,7 @@ class Server {
         this.app.use(this.routesCupon, require("./routes/Cupon"));
         this.app.use(this.routesConfig, require("./routes/Config"));
         this.app.use(this.routesVariedad, require("./routes/variedad"));
+        this.app.use(this.routesGaleria, require("./routes/Galeria"));
     }
 
     listen() {
