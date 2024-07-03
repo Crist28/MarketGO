@@ -54,7 +54,12 @@
             [(ngModel)]="filtro_categoria"
             placeholder="Categoria..."
           />
-        </div>        
+        </div>   
+        <div class="col-auto">
+          <button class="btn btn-success btn-lg px-2 gap-1" (click)="donwload_excel()">
+            Exportar a excel
+          </button>
+        </div>     
     </div>
     <table class="table my-1">
       <thead>

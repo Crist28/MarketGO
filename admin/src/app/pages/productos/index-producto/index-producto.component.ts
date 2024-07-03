@@ -15,6 +15,9 @@ import Swal from 'sweetalert2';
 import { ProductoService } from '../../../services/producto.service';
 import { Global } from '../../../environment/global.component';
 
+import { Workbook } from 'exceljs';
+import { saveAs  } from 'file-saver';
+
 @Component({
   selector: 'app-index-producto',
   standalone: true,
@@ -26,6 +29,7 @@ export class IndexProductoComponent {
   public filtro_titulo: string = '';
   public filtro_categoria: string = '';
   public productos: Array<any> = [];
+  public arr_producto: Array<any> = [];
   page = 1;
   pageSize= 20;
   token: string = '';
@@ -40,7 +44,18 @@ export class IndexProductoComponent {
     this.productoService.listar_productos_admin('titulo', '', this.token).subscribe(
       (response) => {
         this.productos = response.data;
-        console.log(this.productos);
+        this.productos.forEach(element =>{
+          this.arr_producto.push({
+            titulo: element.titulo,
+            precio: element.precio,
+            stock: element.stock,
+            categoria: element.categoria,
+            nventas: element.nventas,
+            createdAt: element.createdAt
+          });
+        })
+        console.log(this.arr_producto);
+        
         this.productos.reverse();
       },
       (error) => {
@@ -54,7 +69,6 @@ export class IndexProductoComponent {
     this.productoService.listar_productos_admin(tipo, filtroValor, this.token).subscribe(
       (response) => {
         this.productos = response.data;
-        console.log(this.productos);
         this.productos.reverse();
       },
       (error) => {
@@ -115,4 +129,37 @@ export class IndexProductoComponent {
       }
     });
   }  
+
+  donwload_excel(){
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet("Reporte de productos");
+
+    worksheet.addRow(undefined);
+    for (let x1 of this.arr_producto){
+      let x2=Object.keys(x1);
+
+      let temp=[]
+      for(let y of x2){
+        temp.push(x1[y])
+      }
+      worksheet.addRow(temp)
+    }
+
+    let fname='REP01- ';
+
+    worksheet.columns = [
+      { header: 'Producto', key: 'col1', width: 30},
+      { header: 'Stock', key: 'col2', width: 15},
+      { header: 'Precio', key: 'col3', width: 15},
+      { header: 'Categoria', key: 'col4', width: 25},
+      { header: 'N° ventas', key: 'col5', width: 15},
+      { header: 'Fecha', key: 'col4', width: 30},
+    ]as any;
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs.saveAs(blob, fname+'-'+new Date().valueOf()+'.xlsx');
+    });
+
+  }
 }

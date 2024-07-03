@@ -14,6 +14,9 @@ declare let iziToast: any;
 
 import Swal from 'sweetalert2';
 
+import { Workbook } from 'exceljs';
+import { saveAs  } from 'file-saver';
+
 @Component({
   selector: 'app-inventario-producto',
   standalone: true,
@@ -28,6 +31,7 @@ export class InventarioProductoComponent {
   public idUser: any
   token: string = '';
   public inventario: Array<any> = [];
+  public arr_inventario: Array<any> = [];
   public inventario2: any = {};
   page = 1;
   pageSize= 5;
@@ -50,6 +54,14 @@ export class InventarioProductoComponent {
               response => {
                 console.log(response);
                 this.inventario = response.data;
+                this.inventario.forEach(element => {
+                  this.arr_inventario.push({
+                    admin: element.admin.nombres + ' ' + element.admin.apellidos,
+                    cantidad: element.cantidad,
+                    proveedor: element.proveedor,
+                    createdAt: element.createdAt
+                  })
+                })
                 this.inventario.reverse();
               }, error => {
                 console.log(error);
@@ -159,5 +171,36 @@ export class InventarioProductoComponent {
         position: 'topRight',
       });
     }
+  }
+
+  donwload_excel(){
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet("Reporte de inventario");
+
+    worksheet.addRow(undefined);
+    for (let x1 of this.arr_inventario){
+      let x2=Object.keys(x1);
+
+      let temp=[]
+      for(let y of x2){
+        temp.push(x1[y])
+      }
+      worksheet.addRow(temp)
+    }
+
+    let fname='REP01- ';
+
+    worksheet.columns = [
+      { header: 'Trabajador', key: 'col1', width: 30},
+      { header: 'Cantidad', key: 'col2', width: 15},
+      { header: 'Proveedor', key: 'col3', width: 25},
+      { header: 'Fecha', key: 'col4', width: 30},
+    ]as any;
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs.saveAs(blob, fname+'-'+new Date().valueOf()+'.xlsx');
+    });
+
   }
 }

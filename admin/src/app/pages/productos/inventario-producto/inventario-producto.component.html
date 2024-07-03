@@ -34,7 +34,7 @@
       <div class="row g-3 align-items-center my-5">
         <div class="col-auto">
           <input
-            type="text"
+            type="number"
             id="inputTitulo"
             class="form-control"
             aria-describedby="tituloHelpInline"
@@ -60,7 +60,10 @@
           <button type="submit" class="btn btn-primary">Ingresar</button>
         </div>
       </div> 
-    </form>   
+    </form>  
+    <button class="btn btn-success" (click)="donwload_excel()">
+      Exportar a excel
+    </button> 
     <table class="table my-1">
       <thead>
         <tr>
