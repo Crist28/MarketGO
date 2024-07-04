@@ -198,6 +198,68 @@ const eliminar_cliente_admin = async (req, res) => {
   }
 }
 
+const obtener_cliente_guest = async (req, res) => {
+  if (req.user) {
+    let id = req.params["id"];
+
+    try {
+      let registro = await Cliente.findById(id);
+      res.status(200).send({ data: registro });
+    } catch (error) {
+      res.status(401).send({ data: undefined });
+    }
+  }else{
+    res.status(403).send({ error: 'Acceso denegado' });
+  }
+}
+
+const actualizar_perfil_cliente_guest = async (req, res) => {
+  if (req.user) {
+    let id = req.params["id"];
+    let data = req.body;
+
+    console.log(data.password);
+
+    try {
+      if (data.password) {
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        let registro = await Cliente.findByIdAndUpdate(id, {
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          pais: data.pais,
+          email: data.email,
+          password: hashedPassword,
+          perfil: data.perfil,
+          telefono: data.telefono,
+          genero: data.genero,
+          f_nacimiento: data.f_nacimiento,
+          dni: data.dni,
+        }, { new: true });
+
+        res.status(200).send({ data: registro });
+      } else {
+        console.log('Sin contraseña');
+        let reg = await Cliente.findByIdAndUpdate(id, {
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          pais: data.pais,
+          perfil: data.perfil,
+          telefono: data.telefono,
+          genero: data.genero,
+          f_nacimiento: data.f_nacimiento,
+          dni: data.dni
+        }, { new: true }); // { new: true } para devolver el documento actualizado
+        res.status(200).send({ data: reg });
+      }
+    } catch (err) {
+      console.error('Error al actualizar el perfil del cliente:', err);
+      res.status(500).send({ message: 'Error al actualizar el perfil del cliente' });
+    }
+  } else {
+    res.status(403).send({ message: 'No autorizado' });
+  }
+};
+  
 
 module.exports = {
   registro_cliente,
@@ -206,5 +268,9 @@ module.exports = {
   registro_cliente_admin,
   obtener_cliente_admin,
   actualizar_cliente_admin,
-  eliminar_cliente_admin
+  eliminar_cliente_admin,
+  obtener_cliente_guest,
+  actualizar_perfil_cliente_guest
 };
+
+

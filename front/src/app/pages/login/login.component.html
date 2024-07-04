@@ -1,0 +1,62 @@
+<app-header />
+
+<div class="d-flex align-items-center justify-content-center">
+  <main class="form-signin w-100 m-auto">
+    <form class="text-center" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        fill="currentColor"
+        class="bi bi-transparency mb-4"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M0 6.5a6.5 6.5 0 0 1 12.346-2.846 6.5 6.5 0 1 1-8.691 8.691A6.5 6.5 0 0 1 0 6.5m5.144 6.358a5.5 5.5 0 1 0 7.714-7.714 6.5 6.5 0 0 1-7.714 7.714m-.733-1.269q.546.226 1.144.33l-1.474-1.474q.104.597.33 1.144m2.614.386a5.5 5.5 0 0 0 1.173-.242L4.374 7.91a6 6 0 0 0-.296 1.118zm2.157-.672q.446-.25.838-.576L5.418 6.126a6 6 0 0 0-.587.826zm1.545-1.284q.325-.39.576-.837L6.953 4.83a6 6 0 0 0-.827.587l4.6 4.602Zm1.006-1.822q.183-.562.242-1.172L9.028 4.078q-.58.096-1.118.296l3.823 3.824Zm.186-2.642a5.5 5.5 0 0 0-.33-1.144 5.5 5.5 0 0 0-1.144-.33z"
+        />
+      </svg>
+      <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
+
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          class="form-control"
+          id="floatingInput"
+          name="email"
+          [(ngModel)]="user.email"
+          required
+        />
+        <label>Correo Electrónico</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingPassword"
+          name="password"
+          [(ngModel)]="user.password"
+          required
+        />
+        <label for="floatingPassword">Contraseña</label>
+      </div>
+
+      <div class="form-check text-start my-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="remember-me"
+          id="flexCheckDefault"
+        />
+        <label class="form-check-label"> Ver contraseña </label>
+      </div>
+      <button class="btn btn-warning w-100 py-2 mt-2" type="submit">
+        Iniciar sesión
+      </button>
+      <p class="mt-5 mb-3 text-body-secondary">© 1999–2024</p>
+    </form>
+  </main>
+</div>
+
+<div
+  class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top"
+></div>
+<app-footer />

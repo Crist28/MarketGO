@@ -1,0 +1,182 @@
+<app-header></app-header>
+
+<main>
+  <div class="container py-5 text-center">
+    <img
+      class="d-block mx-auto mb-4"
+      src="/docs/5.0/assets/brand/bootstrap-logo.svg"
+      alt=""
+      width="72"
+      height="57"
+    />
+    <h2>Perfil</h2>
+  </div>
+
+  <div class="container">
+      <div class="row g-5">
+        <div class="col-md-4 order-md-last">
+          <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-8">
+          <h4 class="mb-3">Mi perfil</h4>
+          <form #actualizarForm="ngForm" (ngSubmit)="actualizar(actualizarForm)">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="firstName" class="form-label">Nombres</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  placeholder=""
+                  value=""
+                  name="nombres"
+                  [(ngModel)]="cliente.nombres"
+                  required
+                />
+                <div class="invalid-feedback">Valid first name is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="lastName" class="form-label">Apellidos</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  placeholder=""
+                  value=""
+                  name="apellidos"
+                  [(ngModel)]="cliente.apellidos"
+                  required
+                />
+                <div class="invalid-feedback">Valid last name is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="country" class="form-label">País</label>
+                <select
+                type="text"
+                class="form-control"
+                id="gender"
+                placeholder=""
+                value=""
+                name="pais"
+                [(ngModel)]="cliente.pais"
+              >
+              <option disabled selected>Seleccionar</option>
+              <option value="Colombia">Colombia</option>
+              <option value="Venezuela">Venezuela</option>
+            </select>
+                <div class="invalid-feedback">Valid country is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="email" class="form-label">Correo</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder=""
+                  value="{{ cliente.email }}"
+                  readonly
+                  required
+                />
+                <div class="invalid-feedback">Valid email is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Nueva Contraseña"
+                  id="cliente._password"
+                  name="password"
+                  [(ngModel)]="cliente.password"
+                />
+                <div class="invalid-feedback">Valid password is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="phone" class="form-label">Teléfono</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  placeholder=""
+                  value=""
+                  name="telefono"
+                  [(ngModel)]="cliente.telefono"
+                />
+                <div class="invalid-feedback">Valid phone is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="gender" class="form-label">Género</label>
+                <select
+                  type="text"
+                  class="form-control"
+                  id="gender"
+                  placeholder=""
+                  value=""
+                  name="genero"
+                  [(ngModel)]="cliente.genero"
+                >
+                <option value="" disabled selected>Seleccionar</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+              </select>
+                <div class="invalid-feedback">Valid gender is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birthDate"
+                  placeholder=""
+                  name="f_nacimiento"
+                  [(ngModel)]="cliente.f_nacimiento"
+                />
+                <div class="invalid-feedback">Valid birth date is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="identification" class="form-label">Identificación</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identification"
+                  placeholder=""
+                  value=""
+                  name="dni"
+                  [(ngModel)]="cliente.dni"
+                />
+                <div class="invalid-feedback">Valid identification is required.</div>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="profile" class="form-label">Perfil</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="profile"
+                  placeholder=""
+                  value=""
+                  name="perfil"
+                  [(ngModel)]="cliente.perfil"
+                />
+                <div class="invalid-feedback">Valid profile is required.</div>
+              </div>
+            </div>
+  
+            <button class="btn btn-primary btn-lg mt-3" type="submit">
+              Actualizar
+            </button>
+          </form>
+        </div>
+      </div>
+  </div>
+</main>
+
+<app-footer></app-footer>
