@@ -79,4 +79,13 @@ export class ClienteService {
   
     return true;
   }
+
+  obtener_config_publico(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(`${this.url}obtener_config_publico`, { headers });
+  }
+
+  
 }

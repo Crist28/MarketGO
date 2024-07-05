@@ -1,0 +1,11 @@
+.nav-item .dropdown-toggle {
+  cursor: pointer;
+}
+
+.dropdown-menu .dropdown-item {
+  color: #000; /* Cambiar el color del texto si es necesario */
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #f8f9fa; /* Cambiar el color de fondo al pasar el mouse si es necesario */
+}

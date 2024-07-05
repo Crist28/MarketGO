@@ -18,5 +18,7 @@ router.get('/obtener_portada/:img', productoController.obtener_portada);
 router.get('/obtener_producto_admin/:id', [auth.auth], productoController.obtener_producto_admin);
 router.put('/actualizar_producto_admin/:id', [auth.auth, multipartyMiddleware], productoController.actualizar_producto_admin);
 router.delete('/eliminar_producto_admin/:id', [auth.auth], productoController.eliminar_producto_admin);
+//acceso publico
+router.get('/listar_productos_public/:filtro?',productoController.listar_productos_public);
 
 module.exports = router;

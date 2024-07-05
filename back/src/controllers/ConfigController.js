@@ -5,7 +5,7 @@ const Config = require("../models/Config");
 const path = require("path");
 const fs = require("fs");
 
-const obtener_config_admin = async (req = request, res = response) => {
+const obtener_config_admin = async (req, res) => {
   if (req.user) {
     if (req.user.role == "admin") {
       try {
@@ -30,7 +30,7 @@ const obtener_config_admin = async (req = request, res = response) => {
   }
 };
 
-const actualizar_config_admin = async (req = request, res = response) => {
+const actualizar_config_admin = async (req, res) => {
   if (req.user) {
     if (req.user.role == "admin") {
       const id = req.params.id; // Obtener el ID desde la URL
@@ -83,7 +83,7 @@ const actualizar_config_admin = async (req = request, res = response) => {
   }
 };
 
-const obtener_logo = async (req = request, res = response) => {
+const obtener_logo = async (req, res) => {
   try {
     const img = req.params["img"];
     const imagePath = path.join(__dirname, "../uploads/configuraciones", img);
@@ -107,7 +107,7 @@ const obtener_logo = async (req = request, res = response) => {
   }
 };
 
-const obtener_config_publico = async (req = request, res = response) => {
+const obtener_config_publico = async (req, res) => {
   let registro = await Config.findById({ _id: "668001eb288bc44a7f846ef6" });
   res.status(200).send({ data: registro });
 };

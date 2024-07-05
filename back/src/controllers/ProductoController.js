@@ -223,6 +223,18 @@ const eliminar_producto_admin = async (req, res) => {
   }
 };
 
+//Acceso publico
+
+const listar_productos_public = async (req = request, res = response) => {
+  let filtro = req.params["filtro"];
+
+  let registro = await Producto.find({ titulo: new RegExp(filtro, "i") }).sort({
+    createdAt: -1,
+  });
+
+  res.status(200).send({ data: registro });
+};
+
 //Metodos publicos
 
 module.exports = {
@@ -231,5 +243,6 @@ module.exports = {
   obtener_portada,
   obtener_producto_admin,
   actualizar_producto_admin,
-  eliminar_producto_admin
+  eliminar_producto_admin,
+  listar_productos_public
 };
