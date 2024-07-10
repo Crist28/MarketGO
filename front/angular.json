@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "front": {
+    "front-": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,12 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/front",
+            "outputPath": "dist/front-",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -29,13 +27,15 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/izitoast/dist/css/iziToast.min.css",
+              "node_modules/tiny-slider/dist/tiny-slider.css",
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.slim.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/simplebar/dist/simplebar.min.js",
-              "node_modules/izitoast/dist/js/iziToast.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/izitoast/dist/js/iziToast.min.js",
+              "node_modules/tiny-slider/dist/min/tiny-slider.js"
             ],
             "server": "src/main.server.ts",
             "prerender": true,
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "front:build:production"
+              "buildTarget": "front-:build:production"
             },
             "development": {
-              "buildTarget": "front:build:development"
+              "buildTarget": "front-:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,8 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
@@ -97,6 +98,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -106,6 +108,6 @@
     }
   },
   "cli": {
-    "analytics": "e268e88b-bbfe-40ba-8bbf-f6ea784159b0"
+    "analytics": "0261bd91-1e50-40bd-b328-f69e091c8bcd"
   }
 }

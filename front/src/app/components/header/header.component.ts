@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink, Router } from '@angular/router';
+import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
+import { Global } from '../../environment/global.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule, MatIconModule],
+  imports: [RouterLink, CommonModule, MatIconModule, RouterOutlet],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -15,9 +16,16 @@ export class HeaderComponent {
   public nombre: string = '';
   public token: string;
   public config_global: any = {};
+  public url;
+
+  isActive(route: string): boolean {
+    return this.router.url === route;
+  }
+
   constructor(private router: Router, private clienteService: ClienteService) {
     const token = this.clienteService.getToken();
     this.token = token !== null ? token : '';
+    this.url = Global.url;
 
     this.clienteService.obtener_config_publico().subscribe(
       (response) => {
@@ -44,3 +52,4 @@ export class HeaderComponent {
     });
   }
 }
+

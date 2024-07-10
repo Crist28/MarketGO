@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { ClienteService } from '../../../services/cliente.service';
 import { GuestService } from '../../../services/guest.service';
 import { Global } from '../../../environment/global.component';
+
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 // declare let noUiSlider: any;
@@ -15,7 +17,7 @@ declare let $: any;
 @Component({
   selector: 'app-index-producto',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, FormsModule, CommonModule],
+  imports: [HeaderComponent, FooterComponent, FormsModule, CommonModule, NgbPaginationModule, RouterLink],
   templateUrl: './index-producto.component.html',
   styleUrls: ['./index-producto.component.css'] // Cambiado a styleUrls
 })
@@ -28,8 +30,9 @@ export class IndexProductoComponent {
   public url;
   public filter_cat_productos = 'todos';
   public sort_by = 'Defecto';
-  public currentPage = 1;
-  public itemsPerPage = 50;
+  page = 1;
+  pageSize= 20;
+
 
   constructor(private clienteService: ClienteService, private guestService: GuestService, private route: ActivatedRoute){
     this.url = Global.url;
@@ -74,6 +77,10 @@ export class IndexProductoComponent {
 
 
   ngOnInit(): void {}
+
+  onPageChange(newPage: number): void {
+    this.pageSize = newPage;
+  }
 
   buscar_categoria() {
     if (this.filter_categoria) {
@@ -144,10 +151,6 @@ export class IndexProductoComponent {
         console.log(error);
       }
     );
-  }
-
-  onPageChange(newPage: number): void {
-    this.currentPage = newPage;
   }
 
   orden_por(){

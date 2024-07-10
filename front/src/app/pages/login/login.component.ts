@@ -19,6 +19,7 @@ export class LoginComponent {
   public user: any = {}
   public token: string;
   public usuario: any | null = null;
+  passwordFieldType: string = 'password';
 
   constructor(private clienteService: ClienteService, private router: Router){
     const token = this.clienteService.getToken();
@@ -57,5 +58,9 @@ export class LoginComponent {
         position: 'topRight',
       });
     }
+  }
+
+  togglePasswordVisibility(event: any) {
+    this.passwordFieldType = event.target.checked ? 'text' : 'password';
   }
 }

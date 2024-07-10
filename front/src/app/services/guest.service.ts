@@ -20,4 +20,18 @@ export class GuestService {
     });
     return this.http.get(`${this.url}listar_productos_public/`+filtro, { headers });
   }
+
+  obtener_productos_slug_public(slug:any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(`${this.url}obtener_productos_slug_public/`+slug, { headers });
+  }
+
+  listar_productos_recomendados_public(categoria:any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(`${this.url}listar_productos_recomendados_public/`+categoria, { headers });
+  }
 }

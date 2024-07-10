@@ -1,0 +1,180 @@
+<app-header></app-header>
+<div class="container px-4 py-5" id="custom-cards">
+  <h2 class="pb-2 border-bottom">{{ producto.titulo }}</h2>
+  <span>Art No. {{ producto._id }}</span>
+  <div class="row">
+    <!-- Columna del carrusel de imágenes -->
+    <div class="col-lg-6">
+      <section *ngIf="producto.galeria && producto.galeria.length">
+        <ngb-carousel #carousel="ngbCarousel" [activeId]="activeSlideId">
+          <ng-template
+            ngbSlide
+            *ngFor="let item of producto.galeria; let indice = index"
+            [id]="indice.toString()"
+          >
+            <div class="picsum-img-wrapper">
+              <img
+                [src]="url + 'obtener_galeria/' + item.imagen"
+                alt="Slide {{ indice }}"
+                class="carousel-image"
+              />
+            </div>
+            <!-- <div class="carousel-caption">
+              <h3>Slide label {{ indice + 1 }}</h3>
+              <p>Description for slide {{ indice + 1 }}.</p>
+            </div> -->
+          </ng-template>
+        </ngb-carousel>
+
+        <div class="cs-thumbnails" id="cs-thumbnails">
+          <button
+            type="button"
+            *ngFor="let item of producto.galeria; let indice = index"
+            (click)="goToSlide(carousel, indice)"
+          >
+            <img
+              [src]="url + 'obtener_galeria/' + item.imagen"
+              alt="Thumbnail {{ indice }}"
+              class="thumbnail-image"
+            />
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Columna de información del producto -->
+    <div class="col-lg-6">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <span class="me-3">${{ producto.precio }}</span>
+          <del class="me-3">$31.00</del>
+          <span>-50%</span>
+        </div>
+        <div class="star-rating">
+          <mat-icon style="color: yellow">star</mat-icon>
+          <mat-icon style="color: yellow">star</mat-icon>
+          <mat-icon style="color: yellow">star</mat-icon>
+          <mat-icon style="color: yellow">star</mat-icon>
+          <mat-icon style="color: yellow">star</mat-icon>
+        </div>
+      </div>
+      <div>
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-5">
+            <div class="form-group">
+              <label>{{ producto.titulo_variedad }}</label>
+              <select class="form-control custom-select" id="size">
+                <option value="" selected disabled>Seleccionar</option>
+                <option
+                  value="{{ item.titulo }}"
+                  *ngFor="let item of producto.variedades"
+                >
+                  {{ item.titulo }}
+                </option>
+              </select>
+            </div>
+            <a
+              href="#modal-sizing"
+              data-toggle="modal"
+              class="d-inline-block mt-4 mb-0 pt-3 font-weight-bold text-decoration-0 text-dark"
+              class="mb-2"
+            >
+              <mat-icon>shopping_basket</mat-icon>
+              Size chart
+            </a>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="form-group mr-2">
+              <select class="form-control custom-select" id="select-input">
+                <option>1</option>
+                <option>2</option>
+                <option>5</option>
+                <option>10</option>
+              </select>
+            </div>
+            <div class="mr-2">
+              <button class="btn btn-primary">
+                <mat-icon>shopping_cart</mat-icon>
+                Agregar al carrito
+              </button>
+            </div>
+            <div>
+              <button class="btn btn-outline-primary">
+                <mat-icon>favorite</mat-icon>
+                Favorito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container px-4 py-5" id="featured-3">
+  <h2 class="pb-2 border-bottom"></h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="feature col">
+      <div
+        class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3"
+      >
+        <img
+          [src]="url + 'obtener_portada/' + producto.portada"
+          class="img-thumbnail"
+          style="width: 150%; object-fit: cover"
+        />
+      </div>
+      <h3 class="fs-2 text-body-emphasis mb-3">{{ producto.titulo }}</h3>
+      <a href="#" class="icon-link mb-3"> Precio: ${{ producto.precio }} </a>
+      <div>
+        <button class="btn btn-primary">
+          <mat-icon>shopping_cart</mat-icon>
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+    <div class="feature col">
+      <div
+        class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3"
+      ></div>
+      <h3 class="fs-2 text-body-emphasis">{{ producto.descripcion }}</h3>
+      <p>{{ producto.contenido }}</p>
+      <a class="icon-link"> </a>
+    </div>
+  </div>
+</div>
+
+<div class="cs-carousel pb-2">
+  <button (click)="scrollLeft()" class="btn btn-primary">Left</button>
+  <div class="cs-carousel-inner-two d-flex flex-row flex-nowrap overflow-hidden" #carouselContainer>
+    <!-- Item -->
+    <div *ngFor="let item of productos_rec" class="card card-product mx-1">
+      <div class="card-product-img">
+        <a [routerLink]="['/productos/', item.slug]" target="_blank" class="card-img-top">
+          <img [src]="url + 'obtener_portada/' + item.portada" alt="Product image" class="img-fluid" />
+        </a>
+      </div>
+      <div class="card-body bg-light pb-2">
+        <h3 class="card-title text-truncate mb-2">
+          <a [routerLink]="['/productos/', item.slug]" target="_blank" class="text-dark">{{ item.titulo }}</a>
+        </h3>
+      </div>
+      <div class="card-body bg-light pb-2">
+        <h3 class="card-title text-truncate mb-2">
+          <a [routerLink]="['/productos/', item.slug]" target="_blank" class="text-dark">{{ item.precio }}</a>
+        </h3>
+      </div>
+      <div class="card-product-widgets-bottom">
+        <a [routerLink]="['/productos/', item.slug]" target="_blank" class="btn btn-light ml-auto" data-toggle="tooltip" data-placement="left" title="Add to wishlist">
+          <i class="far fa-heart"></i> Add to Wishlist
+        </a>
+      </div>
+    </div>
+    <!-- End Item -->
+  </div>
+  <button (click)="scrollRight()" class="btn btn-primary">Right</button>
+</div>
+
+
+
+<app-footer></app-footer>

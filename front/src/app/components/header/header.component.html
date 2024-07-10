@@ -3,44 +3,64 @@
     <div
       class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
     >
-      <a
-        href="/"
-        class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          fill="currentColor"
-          class="bi bi-transparency"
-          viewBox="0 0 16 16"
+      <div>
+        <a
+          href="index.html"
+          class="navbar-brand order-lg-1 mr-0 pr-lg-3 mr-lg-4"
         >
-          <path
-            d="M0 6.5a6.5 6.5 0 0 1 12.346-2.846 6.5 6.5 0 1 1-8.691 8.691A6.5 6.5 0 0 1 0 6.5m5.144 6.358a5.5 5.5 0 1 0 7.714-7.714 6.5 6.5 0 0 1-7.714 7.714m-.733-1.269q.546.226 1.144.33l-1.474-1.474q.104.597.33 1.144m2.614.386a5.5 5.5 0 0 0 1.173-.242L4.374 7.91a6 6 0 0 0-.296 1.118zm2.157-.672q.446-.25.838-.576L5.418 6.126a6 6 0 0 0-.587.826zm1.545-1.284q.325-.39.576-.837L6.953 4.83a6 6 0 0 0-.827.587l4.6 4.602Zm1.006-1.822q.183-.562.242-1.172L9.028 4.078q-.58.096-1.118.296l3.823 3.824Zm.186-2.642a5.5 5.5 0 0 0-.33-1.144 5.5 5.5 0 0 0-1.144-.33z"
+          <img
+            [src]="url + 'obtener_logo/' + config_global.logo"
+            alt="Createx Logo"
+            width="80px"
           />
-        </svg>
-      </a>
-
+        </a>
+      </div>
       <ul
         class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
       >
         <li>
-          <a [routerLink]="['/']" class="nav-link px-2 text-secondary"
+          <a
+            [routerLink]="['/']"
+            routerLinkActive="active"
+            [ngClass]="{ selected: isActive('/') }"
+            class="nav-link"
             >Inicio</a
           >
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle px-2 text-white" [routerLink]="['/productos']" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- Example split danger button -->
+        <li class="nav-item btn-group">
+          <a
+            type="button"
+            class="nav-link"
+            [routerLink]="['/productos']"
+            routerLinkActive="active"
+            [ngClass]="{ selected: isActive('/productos') }"
+          >
             Productos
           </a>
-          <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-            <li><a [routerLink]="['/productos:categoria/',item.titulo.toLowerCase()]" class="dropdown-item" *ngFor="let item of config_global.categorias;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="{{ item.icono }}" viewBox="0 0 16 16">
-              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z"/>
-            </svg> {{ item.titulo }}</a></li>
+          <a
+            type="button"
+            class="nav-link dropdown-toggle dropdown-toggle-split px-0 text-secondary"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let item of config_global.categorias">
+              <a
+                class="dropdown-item custom-link"
+                [routerLink]="[
+                  '/productos:categoria/',
+                  item.titulo.toLowerCase()
+                ]"
+              >
+                <mat-icon class="m-2 custom-icon">{{ item.icono }}</mat-icon>
+                {{ item.titulo }}
+              </a>
+            </li>
           </ul>
-        </li>        
-        <li><a href="#" class="nav-link px-2 text-white"></a></li>
+        </li>
+        <li><a href="#" class="nav-link px-4 text-white"> Contactos </a></li>
       </ul>
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -68,42 +88,79 @@
           </svg>
         </button>
         @if (nombre === '') {
-          <button
-            type="button"
-            [routerLink]="['/login']"
-            routerLinkActive="active"
-            class="btn btn-outline-light me-2"
-          >
-            Iniciar Sesion
-          </button>
-          <button type="button" class="btn btn-warning me-2">Registrarse</button>
+        <button
+          type="button"
+          [routerLink]="['/login']"
+          routerLinkActive="active"
+          class="btn btn-outline-light me-2"
+        >
+          Iniciar Sesion
+        </button>
+        <button type="button" class="btn btn-warning me-2">Registrarse</button>
         } @else {
-          <div class="dropdown me-2">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              {{ nombre }}
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" [routerLink]="['cuenta/perfil']" style="cursor: pointer;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+        <div class="dropdown me-2">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ nombre }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['cuenta/perfil']"
+                style="cursor: pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-person"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
+                  />
                 </svg>
                 Perfil
-              </a></li>
-              <li><a class="dropdown-item" >Something else here</a></li>
-              <li>
-                <a (click)="logout()" class="dropdown-item" style="cursor: pointer;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-                    <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-                  </svg>
+              </a>
+            </li>
+            <li><a class="dropdown-item">Something else here</a></li>
+            <li>
+              <a
+                (click)="logout()"
+                class="dropdown-item"
+                style="cursor: pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-box-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"
+                  />
+                </svg>
                 Cerrar Sesion
               </a>
             </li>
-            </ul>
-          </div>
+          </ul>
+        </div>
         }
       </div>
-      
     </div>
   </div>
 </header>

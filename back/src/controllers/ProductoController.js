@@ -235,7 +235,26 @@ const listar_productos_public = async (req = request, res = response) => {
   res.status(200).send({ data: registro });
 };
 
-//Metodos publicos
+const obtener_productos_slug_public = async (req = request, res = response) => {
+  let slug = req.params["slug"];
+
+  let registro = await Producto.findOne({ slug: slug });
+
+  res.status(200).send({ data: registro });
+};
+
+const listar_productos_recomendados_public = async (
+  req = request,
+  res = response
+) => {
+  let catogoria = req.params["catogoria"];
+
+  let registro = await Producto.find({ catogoria: catogoria })
+    .sort({ createdAt: -1 })
+    .limit(8);
+
+  res.status(200).send({ data: registro });
+};
 
 module.exports = {
   registro_producto_admin,
@@ -244,5 +263,7 @@ module.exports = {
   obtener_producto_admin,
   actualizar_producto_admin,
   eliminar_producto_admin,
-  listar_productos_public
+  listar_productos_public,
+  obtener_productos_slug_public,
+  listar_productos_recomendados_public
 };

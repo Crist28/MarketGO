@@ -5,6 +5,7 @@ import { PerfilComponent } from './pages/usuario/perfil/perfil.component';
 
 import { authGuard } from './guards/auth.guard';
 import { IndexProductoComponent } from './pages/productos/index-producto/index-producto.component';
+import { ShowProductoComponent } from './pages/productos/show-producto/show-producto.component';
 
 export const routes: Routes = [
     { path: '', component: InicioComponent },
@@ -13,4 +14,5 @@ export const routes: Routes = [
 
     { path: 'productos', component: IndexProductoComponent },
     { path: 'productos:categoria/:categoria', component: IndexProductoComponent },
+    { path: 'productos/:slug', component: ShowProductoComponent },
 ];

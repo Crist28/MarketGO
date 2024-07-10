@@ -2,10 +2,41 @@
   cursor: pointer;
 }
 
+.nav-item .d-flex .nav-link {
+  display: inline-block;
+}
+
 .dropdown-menu .dropdown-item {
   color: #000; /* Cambiar el color del texto si es necesario */
 }
 
 .dropdown-menu .dropdown-item:hover {
   background-color: #f8f9fa; /* Cambiar el color de fondo al pasar el mouse si es necesario */
+}
+
+.custom-link {
+  display: flex;
+  align-items: center; /* Alinea los elementos verticalmente */
+}
+
+.custom-icon {
+  margin-right: 8px; /* Ajusta el espacio entre el icono y el título */
+}
+
+.navbar-nav .btn-group .nav-link {
+  display: inline-block;
+  vertical-align: middle; /* Asegura que los enlaces estén alineados verticalmente */
+}
+
+.navbar-nav .btn-group .dropdown-toggle-split {
+  margin-left: -2px; /* Ajusta el margen si es necesario */
+  vertical-align: middle; /* Asegura que el ícono de la flecha esté alineado verticalmente */
+}
+
+.nav-link {
+  color: #808080;
+}
+
+.nav-link.selected {
+  color: white; 
 }
