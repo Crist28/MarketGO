@@ -17,6 +17,9 @@ export class HeaderComponent {
   public token: string;
   public config_global: any = {};
   public url;
+  public id: any;
+  public carrito_arr: Array<any> = [];
+  public subtotal = 0; 
 
   isActive(route: string): boolean {
     return this.router.url === route;
@@ -29,12 +32,20 @@ export class HeaderComponent {
 
     this.clienteService.obtener_config_publico().subscribe(
       (response) => {
-        console.log(response);
-
         this.config_global = response.data;
       },
       (error) => {}
     );
+    if(typeof localStorage !== 'undefined'){
+      this.id = localStorage.getItem('id');
+    }
+    this.clienteService.obtener_carrito_cliente(this.id, this.token).subscribe(
+      (response) => {
+        this.carrito_arr = response.data;
+        this.calcular_carrito();
+      },
+      (error) => {}
+    )
   }
   ngOnInit(): void {
     if (typeof localStorage !== 'undefined') {
@@ -50,6 +61,24 @@ export class HeaderComponent {
     this.router.navigate(['/']).then(() => {
       window.location.reload();
     });
+  }
+
+  calcular_carrito(){
+    this.carrito_arr.forEach(element => {
+      this.subtotal = this.subtotal + parseInt(element.producto.precio);
+    })
+  }
+
+  eliminar_item(id: any){
+    this.clienteService.eliminar_carrito_cliente(id, this.token).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigate(['/productos']).then(() => {
+          window.location.reload();
+        });
+      },
+      (error) => {}
+    )
   }
 }
 

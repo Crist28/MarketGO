@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,7 @@ import { Global } from '../../../environment/global.component';
 
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
+declare let iziToast: any;
 
 // declare let noUiSlider: any;
 declare let $: any;
@@ -32,10 +33,18 @@ export class IndexProductoComponent {
   public sort_by = 'Defecto';
   page = 1;
   pageSize= 20;
+  public carrito_data: any = {
+    variedad: '',
+    cantidad: 1
+  };
+  public btn_crt = false;
+  public token: string;
 
 
-  constructor(private clienteService: ClienteService, private guestService: GuestService, private route: ActivatedRoute){
+  constructor(private clienteService: ClienteService, private guestService: GuestService, private route: ActivatedRoute, private router: Router){
     this.url = Global.url;
+    const token = this.clienteService.getToken();
+    this.token = token !== null ? token : '';
     this.clienteService.obtener_config_publico().subscribe(
       response =>{
         
@@ -212,6 +221,61 @@ export class IndexProductoComponent {
           return -1;
         }
         return 0;
+      });
+    }
+  }
+
+  agregar_producto(producto: any) {
+    console.log('Producto:', producto);
+  
+    // Verificar si el producto tiene variedades y si hay al menos una variedad
+    if (producto.variedades && producto.variedades.length > 0) {
+      let data = {
+        producto: producto._id,
+        cliente: localStorage.getItem('id'),
+        cantidad: 1,
+        variedad: producto.variedades[0].titulo
+      }
+      console.log('Data para enviar:', data);
+  
+      this.btn_crt = true;
+      this.clienteService.agregar_carrito_cliente(data, this.token).subscribe(
+        response => {
+          if (response.data == undefined) {
+            iziToast.error({
+              title: 'Error',
+              message: 'El producto ya existe en el carrito',
+              position: 'topRight',
+            });
+            this.btn_crt = false; 
+          } else {
+            console.log(response);
+            iziToast.success({
+              title: 'OK',
+              message: 'Se agregó el producto al carrito',
+              position: 'topRight',
+            });
+            this.btn_crt = false; 
+            this.router.navigate(['/productos']).then(() => {
+              window.location.reload();
+            });
+          }
+        }, 
+        error => {
+          console.error(error);
+          iziToast.error({
+            title: 'Error',
+            message: 'Ocurrió un error al agregar el producto al carrito',
+            position: 'topRight',
+          });
+          this.btn_crt = false;
+        }
+      )
+    } else {
+      iziToast.error({
+        title: 'Error',
+        message: 'El producto no tiene variedades disponibles',
+        position: 'topRight',
       });
     }
   }

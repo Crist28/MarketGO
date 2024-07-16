@@ -314,9 +314,15 @@
                       {{ item.categoria }}
                   </div>
                 </div>
-                <a type="button" class="btn btn-warning btn-block" [routerLink]="['/productos/', item.slug]">
+                <a type="button" class="btn btn-warning btn-block me-2" [routerLink]="['/productos/', item.slug]">
                   <i class="cxi-cart align-middle mt-n1 mr-2"></i> Ver producto
                 </a>
+                <a *ngIf="!btn_crt" type="button" class="btn btn-primary btn-block" (click)="agregar_producto(item)">
+                  <i class="cxi-cart align-middle mt-n1 mr-2"></i> Al Carrito
+                </a>
+                <div *ngIf="btn_crt" class="spinner-border" role="status" disabled>
+                  <span class="sr-only"></span>
+                </div>
               </div>
             </div>
           </div>

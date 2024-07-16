@@ -1,0 +1,413 @@
+<app-header />
+
+<!-- Page content -->
+<section class="container pt-3 pt-md-4 pb-3 pb-sm-4 pb-lg-5 mb-4">
+  <div class="row">
+    <!-- Cart content -->
+    <div class="col-lg-8 pr-lg-6">
+      <div class="d-flex align-items-center justify-content-between pb-2 mb-4">
+        <h1 class="mb-0">Carrito de Compras</h1>
+        <a [routerLink]="['/productos']"><strong>Volver a la tienda</strong></a>
+      </div>
+
+      <!-- Order review -->
+      <h2 class="h4 mb-4">1. Resumen del Pedido</h2>
+      <div class="bg-secondary rounded mb-5">
+        <!-- Item -->
+        <div
+          class="media px-2 px-sm-4 py-4 border-bottom"
+          *ngFor="let item of carrito_arr"
+        >
+          <a [routerLink]="['/productos/', item.producto.slug]" style="min-width: 80px">
+            <img
+              [src]="url + 'obtener_portada/' + item.producto.portada"
+              width="80"
+              alt="Product thumb"
+            />
+          </a>
+          <div class="media-body w-100 pl-3">
+            <div class="d-sm-flex">
+              <div class="pr-sm-3 w-100" style="max-width: 16rem">
+                <h3 class="font-size-sm mb-3">
+                  <a
+                    [routerLink]="['/productos/', item.producto.slug]"
+                    class="nav-link font-weight-bold"
+                    >{{ item.producto.titulo }}</a
+                  >
+                </h3>
+                <ul class="list-unstyled font-size-xs mt-n2 mb-2 me-5">
+                  <li class="mb-0">
+                    <span style="color: black"
+                      >{{ item.producto.titulo_variedad }}:
+                      {{ item.variedad }}</span
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="d-flex pr-sm-3 me-5">
+                <input
+                  type="number"
+                  class="form-control form-control-sm bg-light me-3"
+                  style="width: 4.5rem"
+                  value="{{ item.cantidad }}"
+                  readonly
+                />
+                <div class="text-nowrap pt-2">
+                  <strong class="text-danger">${{ item.producto.precio }}</strong>
+                  <!-- <s class="font-size-xs text-muted">$31.00</s> -->
+                </div>
+              </div>
+              <div
+                class="d-flex align-items-center flex-sm-column text-sm-center ml-sm-auto pt-3 pt-sm-0"
+              >
+                <button class="btn btn-outline-warning btn-sm mr-2 mr-sm-0">
+                  Eliminar
+                </button>
+                <button
+                  class="btn btn-link btn-sm text-decoration-none pt-0 pt-sm-2 px-0 pb-0 mt-0 mt-sm-1"
+                >
+                  Mover a
+                  <mat-icon>favorite</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-3 px-sm-4 py-4 text-right">
+          <span class="text-muted"
+            >Subtotal:<strong class="text-dark font-size-lg ml-2"
+              >${{subtotal}}</strong
+            ></span
+          >
+        </div>
+      </div>
+
+      <!-- Adresses -->
+      <h2 class="h4 mb-4">2. Dirección de Envío y Facturación</h2>
+      <div class="row pb-3">
+        <div class="col-sm-6 form-group">
+          <label for="ch-fn">Nombre</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="ch-fn"
+            placeholder="Tu nombre"
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-ln">Apellido</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="ch-ln"
+            placeholder="Tu apellido"
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-email">Email</label>
+          <input
+            type="email"
+            class="form-control form-control-lg"
+            id="ch-email"
+            placeholder="Tu correo electrónico"
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-phone">Teléfono</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="ch-phone"
+            placeholder="Tu número de teléfono"
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-country">País</label>
+          <select id="ch-country" class="custom-select custom-select-lg">
+            <option value="" disabled selected>Elige un país</option>
+            <option value="australia">Australia</option>
+            <option value="brazil">Brasil</option>
+            <option value="belgium">Bélgica</option>
+            <option value="france">Francia</option>
+            <option value="germany">Alemania</option>
+            <option value="uk">Reino Unido</option>
+            <option value="usa">EE.UU.</option>
+          </select>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-city">Ciudad</label>
+          <select id="ch-city" class="custom-select custom-select-lg">
+            <option value="" disabled selected>Elige una ciudad</option>
+            <option value="brussels">Bruselas</option>
+            <option value="berlin">Berlín</option>
+            <option value="london">Londres</option>
+            <option value="melbourne">Melbourne</option>
+            <option value="new-york">Nueva York</option>
+            <option value="paris">París</option>
+            <option value="rio">Río de Janeiro</option>
+          </select>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-address">Dirección</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="ch-address"
+            placeholder="Calle, apartamento..."
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="ch-zip">Código Postal</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="ch-zip"
+            placeholder="Código postal"
+          />
+        </div>
+        <div class="col-12 form-group">
+          <div class="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="same-details"
+              checked
+            />
+            <label for="same-details" class="custom-control-label"
+              >La dirección de facturación y envío es la misma</label
+            >
+          </div>
+        </div>
+      </div>
+
+      <hr class="mb-4 pb-2" />
+
+      <!-- Shipping -->
+      <h2 class="h4 mb-4">3. Método de Envío</h2>
+      <div class="custom-control custom-radio mb-3">
+        <input
+          type="radio"
+          class="custom-control-input"
+          id="courier"
+          name="shipping"
+          checked
+        />
+        <label
+          for="courier"
+          class="custom-control-label d-flex align-items-center"
+        >
+          <span>
+            <strong class="d-block">Envío a tu dirección</strong>
+            <span class="text-muted font-size-sm"
+              >Fecha estimada: 9 de noviembre</span
+            >
+          </span>
+          <span class="ml-auto">$25.00</span>
+        </label>
+      </div>
+      <div class="custom-control custom-radio mb-3">
+        <input
+          type="radio"
+          class="custom-control-input"
+          id="store-pickup"
+          name="shipping"
+        />
+        <label
+          for="store-pickup"
+          class="custom-control-label d-flex align-items-center"
+        >
+          <span>
+            <strong class="d-block">Recoger en tienda</strong>
+            <span class="text-muted font-size-sm"
+              >Recoge el 8 de noviembre a partir de las 12:00pm</span
+            >
+          </span>
+          <span class="ml-auto">Gratis</span>
+        </label>
+      </div>
+      <!-- Repetir para otros métodos de envío... -->
+
+      <hr class="border-top-0 border-bottom pt-4 mb-4" />
+
+      <!-- Payment -->
+      <h2 class="h4 pt-2 mb-4">4. Método de Pago</h2>
+      <div class="row pb-4">
+        <div class="col-lg-7">
+          <div class="accordion-alt" id="payment-methods">
+            <!-- Card: Credit card -->
+            <div class="card mb-3 px-4 py-3 border rounded box-shadow-sm">
+              <div class="card-header py-2">
+                <div
+                  class="accordion-heading custom-control custom-radio"
+                  data-toggle="collapse"
+                  data-target="#cc-card"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input"
+                    id="cc"
+                    name="payment"
+                    checked
+                  />
+                  <label
+                    for="cc"
+                    class="custom-control-label d-flex align-items-center"
+                  >
+                    <strong class="d-block mr-3">Tarjeta de crédito</strong>
+                    <img
+                      src="../../assets/img/ecommerce/checkout/cards.png"
+                      width="108"
+                      alt="Tarjetas de crédito"
+                    />
+                  </label>
+                </div>
+              </div>
+              <div
+                class="collapse show"
+                id="cc-card"
+                data-parent="#payment-methods"
+              >
+                <div class="card-body pt-3 pb-0">
+                  <div class="form-group mb-3">
+                    <label for="cc-number">Número de Tarjeta</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cc-number"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="cc-name">Nombre en la tarjeta</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cc-name"
+                      required
+                    />
+                  </div>
+                  <div class="form-row mb-3">
+                    <div class="col-sm-6 form-group">
+                      <label for="cc-expiry">Expiración</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="cc-expiry"
+                        placeholder="MM/AA"
+                        required
+                      />
+                    </div>
+                    <div class="col-sm-6 form-group">
+                      <label for="cc-cvc">CVC</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="cc-cvc"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PayPal -->
+            <div class="card mb-3 px-4 py-3 border rounded box-shadow-sm">
+              <div class="card-header py-2">
+                <div
+                  class="accordion-heading custom-control custom-radio"
+                  data-toggle="collapse"
+                  data-target="#paypal-card"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input"
+                    id="paypal"
+                    name="payment"
+                  />
+                  <label
+                    for="paypal"
+                    class="custom-control-label d-flex align-items-center"
+                  >
+                    <strong class="d-block mr-3">PayPal</strong>
+                    <img
+                      src="../../assets/img/ecommerce/checkout/paypal-logo.png"
+                      width="60"
+                      alt="PayPal"
+                    />
+                  </label>
+                </div>
+              </div>
+              <div
+                class="collapse"
+                id="paypal-card"
+                data-parent="#payment-methods"
+              >
+                <div class="card-body font-size-sm pt-3 pb-0">
+                  <p>
+                    Paga a través de PayPal; puedes pagar con tu tarjeta de
+                    crédito si no tienes una cuenta de PayPal.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Otros métodos de pago... -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Place order button -->
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center pt-3"
+      >
+        <button class="btn btn-primary btn-lg" type="button">
+          Hacer Pedido
+        </button>
+        <div
+          class="d-flex align-items-center mt-3 mt-sm-0 ml-sm-3 ml-md-0 ml-lg-3"
+        >
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="terms"
+            checked
+          />
+          <label for="terms" class="custom-control-label font-size-sm mb-0 mr-3"
+            >He leído y acepto los términos y condiciones.</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4 mt-5 mt-lg-0">
+      <div class="bg-secondary rounded p-4 box-shadow-lg ml-lg-auto">
+        <div class="text-center mb-4 pb-3 border-bottom">
+          <h2 class="h6 mb-3 pb-1">Resumen del Pedido</h2>
+          <ul class="list-unstyled font-size-sm">
+            <li
+              class="d-flex justify-content-between align-items-center mb-3 pb-1"
+            >
+              <strong>Subtotal:</strong><span class="text-muted">${{subtotal}}</span>
+            </li>
+            <li
+              class="d-flex justify-content-between align-items-center mb-3 pb-1"
+            >
+              <strong>Envío:</strong><span class="text-muted">$25.00</span>
+            </li>
+            <li class="d-flex justify-content-between align-items-center">
+              <strong>Total:</strong><span class="h6 mb-0">${{ total_pagar }}</span>
+            </li>
+          </ul>
+        </div>
+        <button>
+          Completar orden
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer />

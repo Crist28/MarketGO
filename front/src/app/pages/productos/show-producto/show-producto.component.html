@@ -63,7 +63,7 @@
           <div class="d-flex justify-content-between align-items-center mb-5">
             <div class="form-group">
               <label>{{ producto.titulo_variedad }}</label>
-              <select class="form-control custom-select" id="size">
+              <select class="form-control custom-select" id="size" name="variedad" [(ngModel)]="carrito_data.variedad">
                 <option value="" selected disabled>Seleccionar</option>
                 <option
                   value="{{ item.titulo }}"
@@ -85,18 +85,21 @@
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <div class="form-group mr-2">
-              <select class="form-control custom-select" id="select-input">
-                <option>1</option>
-                <option>2</option>
-                <option>5</option>
-                <option>10</option>
+              <select class="form-control custom-select" id="select-input" name="cantidad" [(ngModel)]="carrito_data.cantidad">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="1000000">1000000</option>
               </select>
             </div>
             <div class="mr-2">
-              <button class="btn btn-primary">
+              <button *ngIf="!btn_crt" class="btn btn-primary" (click)="agregar_producto()">
                 <mat-icon>shopping_cart</mat-icon>
                 Agregar al carrito
               </button>
+              <div *ngIf="btn_crt" class="spinner-border" role="status" disabled>
+                <span class="sr-only"></span>
+              </div>
             </div>
             <div>
               <button class="btn btn-outline-primary">

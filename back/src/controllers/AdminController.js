@@ -39,7 +39,7 @@ const registro_admin = async(req, res) =>{
       }
 }
 
-const login_admin = async (req = request, res = response) => {
+const login_admin = async (req, res) => {
 
   try {
     const data = req.body;

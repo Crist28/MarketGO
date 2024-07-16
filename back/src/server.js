@@ -18,6 +18,7 @@ class Server {
         this.routesConfig = '/api';
         this.routesVariedad = '/api';
         this.routesGaleria = '/api';
+        this.routesCarrito = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -43,6 +44,7 @@ class Server {
         this.app.use(this.routesConfig, require("./routes/Config"));
         this.app.use(this.routesVariedad, require("./routes/variedad"));
         this.app.use(this.routesGaleria, require("./routes/Galeria"));
+        this.app.use(this.routesCarrito, require("./routes/Carrito"));
     }
 
     listen() {
