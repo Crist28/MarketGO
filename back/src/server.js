@@ -2,11 +2,16 @@
 
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
 const { dbConnection } = require('./database/conexiondb');
 
 class Server {
     constructor() {
         this.app = express();
+        this.server = http.createServer(this.app);
+        this.io = require('socket.io')(this.server, {
+            cors: { origin: '*' }
+        });
 
         this.port = process.env.PORT || 3000;
 
@@ -23,16 +28,21 @@ class Server {
         this.conectarDB();
         this.middleware();
         this.routes();
+        this.socketio();
     }
 
-    async conectarDB(){
-        await dbConnection()
+    async conectarDB() {
+        try {
+            await dbConnection();
+            console.log('Base de datos conectada');
+        } catch (error) {
+            console.error('Error conectando a la base de datos:', error);
+        }
     }
 
-    middleware(){
+    middleware() {
         this.app.use(express.json());
         this.app.use(cors());
-
     }
 
     routes() {
@@ -47,8 +57,18 @@ class Server {
         this.app.use(this.routesCarrito, require("./routes/Carrito"));
     }
 
+    socketio() {
+        this.io.on('connection', (socket) => {
+            console.log('Cliente conectado');
+            socket.on('delete-carrito', (data) => {
+                this.io.emit('new-carrito', data);
+                console.log('Evento delete-carrito recibido:', data);
+            });
+        });
+    }
+
     listen() {
-        this.app.listen(this.port,'0.0.0.0', () => {
+        this.server.listen(this.port, '0.0.0.0', () => {
             console.log('Servidor corriendo en el puerto', this.port);
         });
     }

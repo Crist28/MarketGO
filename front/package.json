@@ -36,6 +36,7 @@
     "lg-video": "^1.4.0",
     "lightgallery": "^2.7.2",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.7.5",
     "tiny-slider": "^2.9.4",
     "tns": "^0.2.0",
     "tslib": "^2.6.3",
