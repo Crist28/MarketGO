@@ -300,7 +300,7 @@
               />
               <div class="card-body pb-2">
                 <h3 class="card-title text-truncate mb-2">
-                  <a [routerLink]="['/productos/', item.slug]" class="nav-link">{{
+                  <a [routerLink]="['/productos/', item?.slug]" class="nav-link">{{
                     item.titulo.toUpperCase()
                   }}</a>
                 </h3>
@@ -314,7 +314,7 @@
                       {{ item.categoria }}
                   </div>
                 </div>
-                <a type="button" class="btn btn-warning btn-block me-2" [routerLink]="['/productos/', item.slug]">
+                <a type="button" class="btn btn-warning btn-block me-2" [routerLink]="['/productos/', item?.slug]">
                   <i class="cxi-cart align-middle mt-n1 mr-2"></i> Ver producto
                 </a>
                 <a *ngIf="!btn_crt" type="button" class="btn btn-primary btn-block" (click)="agregar_producto(item)">

@@ -55,7 +55,7 @@
                 ]"
               >
                 <mat-icon class="m-2 custom-icon">{{ item.icono }}</mat-icon>
-                {{ item.titulo }}
+                {{ item?.titulo }}
               </a>
             </li>
           </ul>
@@ -140,12 +140,12 @@
                   *ngFor="let item of carrito_arr"
                 >
                   <a
-                    [routerLink]="['/productos/', item.producto.slug]"
+                    [routerLink]="['/productos/', item.producto?.slug]"
                     target="_blank"
                     style="min-width: 80px"
                   >
                     <img
-                      [src]="url + 'obtener_portada/' + item.producto.portada"
+                      [src]="url + 'obtener_portada/' + item.producto?.portada"
                       width="80"
                       alt="Product thumb"
                     />
@@ -153,16 +153,16 @@
                   <div class="ms-3">
                     <h5 class="font-size-sm mb-3">
                       <a
-                        [routerLink]="['/productos/', item.producto.slug]"
+                        [routerLink]="['/productos/', item.producto?.slug]"
                         target="_blank"
                         class="nav-link"
-                        >{{ item.producto.titulo }}</a
+                        >{{ item.producto?.titulo }}</a
                       >
                     </h5>
                     <ul class="list-unstyled font-size-xs mt-n2 mb-2">
                       <li class="mb-0">
                         <span style="color: black"
-                          >{{ item.producto.titulo_variedad }}:
+                          >{{ item.producto?.titulo_variedad }}:
                           {{ item.variedad }}</span
                         >
                       </li>
@@ -177,7 +177,7 @@
                       />
                       <div class="text-nowrap">
                         <strong class="text-danger"
-                          >${{ item.producto.precio }}</strong
+                          >${{ item.producto?.precio }}</strong
                         >
                         <!-- <s class="font-size-xs text-muted">$31.00</s> -->
                       </div>

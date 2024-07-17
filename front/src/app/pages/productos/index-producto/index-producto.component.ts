@@ -8,6 +8,8 @@ import { ClienteService } from '../../../services/cliente.service';
 import { GuestService } from '../../../services/guest.service';
 import { Global } from '../../../environment/global.component';
 
+import { io, Socket } from 'socket.io-client';
+
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 declare let iziToast: any;
@@ -18,50 +20,61 @@ declare let $: any;
 @Component({
   selector: 'app-index-producto',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, FormsModule, CommonModule, NgbPaginationModule, RouterLink],
+  imports: [
+    HeaderComponent,
+    FooterComponent,
+    FormsModule,
+    CommonModule,
+    NgbPaginationModule,
+    RouterLink,
+  ],
   templateUrl: './index-producto.component.html',
-  styleUrls: ['./index-producto.component.css'] // Cambiado a styleUrls
+  styleUrls: ['./index-producto.component.css'], // Cambiado a styleUrls
 })
 export class IndexProductoComponent {
   public config_global: any = {};
   public filter_categoria = '';
   public productos: Array<any> = [];
-  public route_categoria:any;
+  public route_categoria: any;
   public filter_producto = '';
   public url;
   public filter_cat_productos = 'todos';
   public sort_by = 'Defecto';
   page = 1;
-  pageSize= 20;
+  pageSize = 20;
   public carrito_data: any = {
     variedad: '',
-    cantidad: 1
+    cantidad: 1,
   };
   public btn_crt = false;
   public token: string;
+  public socket: Socket | null = null;
 
-
-  constructor(private clienteService: ClienteService, private guestService: GuestService, private route: ActivatedRoute, private router: Router){
+  constructor(
+    private clienteService: ClienteService,
+    private guestService: GuestService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.url = Global.url;
     const token = this.clienteService.getToken();
     this.token = token !== null ? token : '';
     this.clienteService.obtener_config_publico().subscribe(
-      response =>{
-        
+      (response) => {
         this.config_global = response.data;
       },
-      error =>{
-
-      }
-    )
-    this.route.params.subscribe(params => {
+      (error) => {}
+    );
+    this.route.params.subscribe((params) => {
       this.route_categoria = params['categoria'];
       if (this.route_categoria) {
         this.guestService.listar_productos_public('').subscribe(
           (response) => {
             // Filtrar productos por categoría
             this.productos = response.data.filter(
-              (item: any) => item.categoria.toLowerCase() === this.route_categoria.toLowerCase()
+              (item: any) =>
+                item.categoria.toLowerCase() ===
+                this.route_categoria.toLowerCase()
             );
           },
           (error) => {
@@ -81,11 +94,23 @@ export class IndexProductoComponent {
           }
         );
       }
-    });    
+    });
+    // Inicializar socket
+    if (typeof window !== 'undefined') {
+      this.socket = io('http://localhost:3000');
+    }
   }
 
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      this.socket = io('http://localhost:3000');
+      this.socket.on('new-carrito-add', (data: any) => {
+        console.log('Carrito actualizado:', data);
+        // this.carrito_arr = Array.isArray(data) ? data : [];
+        // this.calcular_carrito();
+      });
+    }
+  }
 
   onPageChange(newPage: number): void {
     this.pageSize = newPage;
@@ -104,13 +129,11 @@ export class IndexProductoComponent {
     }
   }
 
-  reset_productos(){
+  reset_productos() {
     this.filter_producto = '';
-    this.guestService.listar_productos_public('').subscribe(
-      response=>{
-        this.productos = response.data;
-      }
-    );
+    this.guestService.listar_productos_public('').subscribe((response) => {
+      this.productos = response.data;
+    });
   }
 
   buscar_producto() {
@@ -118,7 +141,7 @@ export class IndexProductoComponent {
       .listar_productos_public(this.filter_producto)
       .subscribe((response) => {
         this.productos = response.data;
-  
+
         // Mostrar mensaje si no hay resultados
         if (this.productos.length === 0) {
           // Reiniciar otros filtros si es necesario
@@ -162,62 +185,69 @@ export class IndexProductoComponent {
     );
   }
 
-  orden_por(){
-    if(this.sort_by == 'Defecto'){
+  orden_por() {
+    if (this.sort_by == 'Defecto') {
       this.guestService
         .listar_productos_public(this.filter_producto)
         .subscribe((response) => {
           this.productos = response.data;
         });
-    }else if (this.sort_by === 'Popularity') {
-      this.productos.sort((a, b) => { // Fixed parentheses here
+    } else if (this.sort_by === 'Popularity') {
+      this.productos.sort((a, b) => {
+        // Fixed parentheses here
         if (a.nventas < b.nventas) {
           return 1;
         }
-        if (a.nventas > b.nventas) { // Fixed comparison operator here
+        if (a.nventas > b.nventas) {
+          // Fixed comparison operator here
           return -1;
         }
         return 0;
       });
-    }else if (this.sort_by === 'precio_mayor') {
-      this.productos.sort((a, b) => { // Fixed parentheses here
+    } else if (this.sort_by === 'precio_mayor') {
+      this.productos.sort((a, b) => {
+        // Fixed parentheses here
         if (a.precio < b.precio) {
           return 1;
         }
-        if (a.precio > b.precio) { // Fixed comparison operator here
+        if (a.precio > b.precio) {
+          // Fixed comparison operator here
           return -1;
         }
         return 0;
       });
-    }
-    else if (this.sort_by === 'precio_menor') {
-      this.productos.sort((a, b) => { // Fixed parentheses here
+    } else if (this.sort_by === 'precio_menor') {
+      this.productos.sort((a, b) => {
+        // Fixed parentheses here
         if (a.precio > b.precio) {
           return 1;
         }
-        if (a.precio < b.precio) { // Fixed comparison operator here
+        if (a.precio < b.precio) {
+          // Fixed comparison operator here
           return -1;
         }
         return 0;
       });
-    }
-    else if (this.sort_by === 'azTitulo') {
-      this.productos.sort((a, b) => { // Fixed parentheses here
+    } else if (this.sort_by === 'azTitulo') {
+      this.productos.sort((a, b) => {
+        // Fixed parentheses here
         if (a.titulo > b.titulo) {
           return 1;
         }
-        if (a.titulo < b.titulo) { // Fixed comparison operator here
+        if (a.titulo < b.titulo) {
+          // Fixed comparison operator here
           return -1;
         }
         return 0;
       });
-    }
-    else if (this.sort_by === 'zaTitulo') {
-      this.productos.sort((a, b) => { // Fixed parentheses here
+    } else if (this.sort_by === 'zaTitulo') {
+      this.productos.sort((a, b) => {
+        // Fixed parentheses here
         if (a.titulo < b.titulo) {
           return 1;
         }
-        if (a.titulo > b.titulo) { // Fixed comparison operator here
+        if (a.titulo > b.titulo) {
+          // Fixed comparison operator here
           return -1;
         }
         return 0;
@@ -227,27 +257,27 @@ export class IndexProductoComponent {
 
   agregar_producto(producto: any) {
     console.log('Producto:', producto);
-  
+
     // Verificar si el producto tiene variedades y si hay al menos una variedad
     if (producto.variedades && producto.variedades.length > 0) {
       let data = {
         producto: producto._id,
         cliente: localStorage.getItem('id'),
         cantidad: 1,
-        variedad: producto.variedades[0].titulo
-      }
+        variedad: producto.variedades[0].titulo,
+      };
       console.log('Data para enviar:', data);
-  
+
       this.btn_crt = true;
       this.clienteService.agregar_carrito_cliente(data, this.token).subscribe(
-        response => {
+        (response) => {
           if (response.data == undefined) {
             iziToast.error({
               title: 'Error',
               message: 'El producto ya existe en el carrito',
               position: 'topRight',
             });
-            this.btn_crt = false; 
+            this.btn_crt = false;
           } else {
             console.log(response);
             iziToast.success({
@@ -255,13 +285,11 @@ export class IndexProductoComponent {
               message: 'Se agregó el producto al carrito',
               position: 'topRight',
             });
-            this.btn_crt = false; 
-            this.router.navigate(['/productos']).then(() => {
-              window.location.reload();
-            });
+            this.socket?.emit('add-carrito-add', { data: true });
+            this.btn_crt = false;
           }
-        }, 
-        error => {
+        },
+        (error) => {
           console.error(error);
           iziToast.error({
             title: 'Error',
@@ -270,7 +298,7 @@ export class IndexProductoComponent {
           });
           this.btn_crt = false;
         }
-      )
+      );
     } else {
       iziToast.error({
         title: 'Error',
@@ -279,5 +307,4 @@ export class IndexProductoComponent {
       });
     }
   }
-  
 }

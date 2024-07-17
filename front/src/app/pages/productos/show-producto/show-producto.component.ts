@@ -9,6 +9,7 @@ import { Global } from '../../../environment/global.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GuestService } from '../../../services/guest.service';
 import { ClienteService } from '../../../services/cliente.service';
+import { io, Socket } from 'socket.io-client';
 
 declare let iziToast: any;
 
@@ -34,6 +35,9 @@ export class ShowProductoComponent {
     cantidad: 1
   };
   public btn_crt = false;
+  public socket: Socket | null = null;
+  public carrito_arr: Array<any> = [];
+  public id: any;
 
   @ViewChild('carouselContainer', { static: false }) carouselContainer!: ElementRef;
 
@@ -59,6 +63,14 @@ export class ShowProductoComponent {
   }
 
   ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      this.socket = io('http://localhost:3000');
+      this.socket.on('new-carrito-add', (data: any) => {
+        console.log('Nuevo producto agregado:', data);
+        this.carrito_arr.push(data); // Agregar el nuevo producto al carrito
+        this.obtener_carrito_cliente();
+      });
+    }
     this.route.params.subscribe(params => {
       this.slug = params['slug'];
       this.guestService.obtener_productos_slug_public(this.slug).subscribe(response => {
@@ -75,6 +87,9 @@ export class ShowProductoComponent {
         this.isLoading = false;
       });
     });
+    if (typeof localStorage !== 'undefined') {
+      this.id = localStorage.getItem('id');
+    }
   }
 
   goToSlide(carousel: NgbCarousel, slideId: number): void {
@@ -89,6 +104,17 @@ export class ShowProductoComponent {
   scrollRight(): void {
     this.carouselContainer.nativeElement.scrollLeft += this.carouselContainer.nativeElement.clientWidth;
   }
+
+  obtener_carrito_cliente(): void {
+    this.clienteService.obtener_carrito_cliente(this.id, this.token).subscribe(
+      (response) => {
+        this.carrito_arr = Array.isArray(response.data) ? response.data : [];
+      },
+      (error) => {
+        console.error('Error al obtener el carrito:', error);
+      }
+    );
+  } 
 
   agregar_producto(){
     if(this.carrito_data.variedad){
@@ -116,6 +142,7 @@ export class ShowProductoComponent {
                 message: 'Se agrego el producto al carrito',
                 position: 'topRight',
             });
+            this.socket?.emit('add-carrito-add', { data: true });
             this.btn_crt = false; 
             }
           }, 

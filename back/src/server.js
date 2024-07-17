@@ -1,15 +1,14 @@
-'use strict';
-
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
+const socketIo = require('socket.io');
 const { dbConnection } = require('./database/conexiondb');
 
 class Server {
     constructor() {
         this.app = express();
         this.server = http.createServer(this.app);
-        this.io = require('socket.io')(this.server, {
+        this.io = socketIo(this.server, {
             cors: { origin: '*' }
         });
 
@@ -59,10 +58,13 @@ class Server {
 
     socketio() {
         this.io.on('connection', (socket) => {
-            console.log('Cliente conectado');
             socket.on('delete-carrito', (data) => {
                 this.io.emit('new-carrito', data);
                 console.log('Evento delete-carrito recibido:', data);
+            });
+            socket.on('add-carrito-add', (data) => {
+                this.io.emit('new-carrito-add', data);
+                console.log('Evento add-carrito recibido:', data);
             });
         });
     }
