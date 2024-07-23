@@ -23,6 +23,7 @@ class Server {
         this.routesVariedad = '/api';
         this.routesGaleria = '/api';
         this.routesCarrito = '/api';
+        this.routesDireccion = '/api';
 
         this.conectarDB();
         this.middleware();
@@ -54,6 +55,7 @@ class Server {
         this.app.use(this.routesVariedad, require("./routes/variedad"));
         this.app.use(this.routesGaleria, require("./routes/Galeria"));
         this.app.use(this.routesCarrito, require("./routes/Carrito"));
+        this.app.use(this.routesDireccion, require("./routes/Direccion"));
     }
 
     socketio() {

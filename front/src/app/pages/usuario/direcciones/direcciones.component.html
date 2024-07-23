@@ -1,0 +1,215 @@
+<app-header></app-header>
+
+<main>
+  <div class="container py-5 text-center">
+    <img
+      class="d-block mx-auto mb-4"
+      src="/docs/5.0/assets/brand/bootstrap-logo.svg"
+      alt=""
+      width="72"
+      height="57"
+    />
+    <h2>Direccion</h2>
+  </div>
+
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-md-4 order-md-last">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-md-8">
+        <h4 class="mb-3">Nuevas direcciones</h4>
+        <form class="mb-5" #registroForm="ngForm" (ngSubmit)="registrar(registroForm)">
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Destinatario</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombre completo del destinatario"
+                name="destinatario"
+                [(ngModel)]="direccion.destinatario"
+                required
+              />
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">DNI</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="DNI"
+                name="dni"
+                [(ngModel)]="direccion.dni"
+                required
+              />
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">ZIP</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Codigo postal"
+                name="zip"
+                [(ngModel)]="direccion.zip"
+                required
+              />
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Telefono</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Telefono"
+                name="telefono"
+                [(ngModel)]="direccion.telefono"
+                required
+              />
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-12">
+              <label for="lastName" class="form-label">Direccion</label>
+              <textarea
+                class="form-control"
+                placeholder="Direccion"
+                name="direccion"
+                [(ngModel)]="direccion.direccion"
+                required
+              ></textarea>
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Pais</label>
+              <select
+                class="form-control"
+                name="pais"
+                [(ngModel)]="direccion.pais"
+                (change)="select_pais()"
+                required
+              >
+                <option value="" selected disabled>Seleccionar</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Brasil">Brasil</option>
+                <option value="Chile">Chile</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Cuba">Cuba</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="El Salvador">El Salvador</option>
+                <option value="España">España</option>
+                <option value="Estados Unidos">Estados Unidos</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="Haití">Haití</option>
+                <option value="Honduras">Honduras</option>
+                <option value="México">México</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Panamá">Panamá</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Perú">Perú</option>
+                <option value="República Dominican">República Dominican</option>
+                <option value="Uruguay">Uruguay</option>
+                <option value="Venezuela">Venezuela</option>
+              </select>
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label" >Region</label>
+              <select
+                id="sl-region"
+                class="form-control"
+                name="region"
+                [(ngModel)]="direccion.region"
+                disabled
+                (change)="select_region()"
+              >
+                <option value="" selected disabled>Seleccionar</option>
+                <option value="{{ item.id }}" *ngFor="let item of regiones">{{ item.name }}</option>
+              </select>
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Provincia</label>
+              <select
+                id="sl-provincia"
+                class="form-control"
+                name="provincia"
+                [(ngModel)]="direccion.provincia"
+                disabled
+                (change)="select_provincia()"
+              >
+                <option value="" selected disabled>Seleccionar</option>
+                <option value="{{ item.id }}" *ngFor="let item of provincias">{{ item.name }}</option>
+              </select>
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Distrito</label>
+              <select
+                id="sl-distrito"
+                class="form-control"
+                name="distrito"
+                [(ngModel)]="direccion.distrito"
+                disabled
+              >
+                <option value="" selected disabled>Seleccionar</option>
+                <option value="{{ item.id }}" *ngFor="let item of distritos">{{ item.name }}</option>
+              </select>
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-sm-12">
+              <input
+                type="checkbox"
+                name="principal"
+                [(ngModel)]="direccion.principal"
+              />
+              <label for="">Activar cuenta principal</label>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg mt-3" type="submit">
+            Crear direccion
+          </button>
+        </form>
+        <h5 class="card-title mb-3">Mis direcciones</h5>
+        @if(direcciones.length >= 1){
+          <div class="row" *ngFor="let item of direcciones">
+            <div class="col-12">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <h6 class="card-title">{{ item.destinatario }}</h6>
+                    <span>{{ item.zip }}</span> <br>
+                    @if(item.principal){
+                      <span class="badge bg-primary">Direccion de envio</span>
+                    }@else{
+                      <span class="badge bg-success" style="cursor: pointer;" (click)="establecer_principal(item._id)">Establecer principal</span>
+                    }
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      
+                      <p class="card-text">{{ item.direccion }}</p>
+                      <p class="card-text"><small class="text-muted">
+                        {{ item.pais }} -
+                        <span *ngIf="item.region">{{ item.region }}</span> -
+                        <span *ngIf="item.provincia">{{ item.provincia }}</span> -
+                        <span *ngIf="item.distrito">{{ item.distrito }}</span>
+                      </small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }@else{
+          <h1>No se encontraron las direcciones</h1>
+          <h3>Debe registrar su direccion de envio porfavor</h3>
+        }
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

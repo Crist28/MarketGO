@@ -34,4 +34,14 @@ export class GuestService {
     });
     return this.http.get(`${this.url}listar_productos_recomendados_public/`+categoria, { headers });
   }
+
+  get_Regiones(): Observable<any> {
+    return this.http.get('../../../public/regiones.json');
+  }
+  get_Provincias(): Observable<any> {
+    return this.http.get('../../../public/provincias.json');
+  }
+  get_Distritos(): Observable<any> {
+    return this.http.get('../../../public/distritos.json');
+  }
 }
